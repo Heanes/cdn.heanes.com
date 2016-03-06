@@ -1,0 +1,312 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	<title>基础示例 - LHGCALENDAR</title>
+    <meta name="keywords" content="lhg,lhgcalendar,calendar,date,datepicker,time,日历,弹出日历,js日历,组件,js组件,js库,lhgcore,javascript,jquery,window,clientside,control,open source,LGPL,dhtml,html,xhtml,word,plugins"/>
+    <meta name="description" content="lhgcalendar是一功能强大的简单迷你并且高效的弹出日历组件,基于网络访问并且兼容IE 6.0+,Firefox 3.0+,Opera 9.6+,Chrome 1.0+,Safari 3.22+."/>
+    <meta name="copyright" content="lhgcore.com"/>
+	<link rel="icon" href="../favicon.ico" type="image/x-icon"/>
+	<link rel="shortcut icon" href="../favicon.ico" type="image/x-icon"/>
+	<link href="../_doc/common.css" type="text/css" rel="stylesheet"/>
+	<link href="../_doc/prettify/prettify.css" type="text/css" rel="stylesheet"/>
+	<script type="text/javascript" src="../_doc/prettify/prettify.js"></script>
+	<script type="text/javascript" src="../jquery-1.7.1.min.js"></script>
+	<script type="text/javascript" src="../lhgcalendar.min.js"></script>
+	<script type="text/javascript" src="demo.js"></script>
+	<script type="text/javascript">
+$(function(){
+    $('#demo_inp1').calendar();
+	$('#img').calendar({ id:'#cal3' });
+});
+	</script>
+</head>
+
+<body>
+    <div class="container">
+	    <div class="header">
+		    <div class="hd_logo"><a href="../index.html"><img border="0" src="../_doc/images/lhgcal_logo.gif" alt="lhgcalendar"/></a></div>
+			<div class="hd_nav">
+			    <a href="../index.html">首页</a> | <a href="../_doc/api.html">API文档</a> | 基础示例 | <a href="../_doc/update.html">更新记录</a>
+			</div>
+		</div>
+		<div class="line">&nbsp;</div>
+		<div class="cbody">
+			<h2>日历组件调用方式</h2>
+			<p></p>
+			<ol>
+			    <li>
+			        <h3>jQuery方式调用</h3>
+					<p></p>
+<pre class="prettyprint">
+$(function(){
+    $('#demo_inp1').calendar();
+});
+</pre>
+					<p><input class="runcode" id="demo_inp1"/></p>
+				</li>
+			    <li>
+			        <h3>普通函数方式调用</h3>
+					<p></p>
+<pre class="prettyprint" id="demo_inp2">
+$.calendar();
+</pre>
+					<p><input class="runcode" name="demo_inp2"/></p>
+				</li>
+			</ol>
+			<h2>下拉，输入，导航选择日期(年月输入框都具备以下三种特性)</h2>
+			<p></p>
+			<ol>
+			    <li>
+				    <h3>通过导航图标选择</h3>
+					<p><img src="../_doc/images/calendar1.gif"/></p>
+				</li>
+				<li>
+				    <h3>直接从弹出的下拉框中选择</h3>
+					<p><img src="../_doc/images/calendar2.gif"/></p>
+				</li>
+				<li>
+				    <h3>直接使用键盘输入数字</h3>
+					<p><img src="../_doc/images/calendar3.gif"/></p>
+				</li>
+			</ol>
+			<h2>常规功能使用演示</h2>
+			<p></p>
+			<ol>
+			    <li>
+			        <h3>id参数(注意这里的id参数的值是左边输入框的id)，图标触发</h3>
+					<p></p>
+<pre class="prettyprint">
+$.calendar({ id:'#cal3' });
+</pre>
+					<p><input id="cal3" style="border:1px solid #ddd;background:#f7f7f7;cursor:pointer;font:12px tahoma,arial;height:21px;width:150px;"/>&nbsp;<img id="img" align="absmiddle" src="../_doc/images/iconDate.gif"/></p>
+				</li>
+				<li>
+			        <h3 >是否显示按钮栏</h3>
+					<p></p>
+<pre class="prettyprint" id="demo_inp3">
+$.calendar({ btnBar:false });
+</pre>
+					<p><input class="runcode" name="demo_inp3"/></p>
+				</li>
+				<li>
+			        <h3>自动选择显示位置</h3>
+					<p></p>
+<pre class="prettyprint">
+当控件处在页面边界时，它会自动选择显示的位置，所以没有必要担心弹出框会被页面边界遮住的问题了。
+</pre>
+				</li>
+				<li>
+			        <h3 >自定义格式(其它各种自定义格式请参阅 <a href="../_doc/api.html" target="_blank">API参数控制接口</a>)</h3>
+					<p></p>
+<pre class="prettyprint" id="demo_inp4">
+$.calendar({ format:'yyyy年MM月dd日 HH时mm分ss秒' });
+</pre>					
+				    <p><input class="runcode" name="demo_inp4" style="width:200px;"/></p>
+				</li>
+				<li>
+			        <h3>取得系统可识别的日期值(重要)</h3>
+					<p></p>
+<pre class="prettyprint" id="demo_inp5">
+/* 类似于 1999年7月5日 这样的日期是不能够被系统识别的,他必须转换为能够识别的类型如 1999-07-05 */
+$.calendar({ format:'yyyy年MM月dd日', real:'#realInp' });
+
+/* input文本框的代码是：
+&lt;input class=&quot;runcode&quot; id=&quot;inp6&quot;/&gt;&lt;input class=&quot;runcode&quot; id=&quot;realInp&quot; type=&quot;text&quot;/&gt;
+
+ 注意:在实际应用中,一般会把real指定为一个hidden控件,这里是为了把真实值展示出来,所以使用文本框
+ 关键属性: real 指定一个控件或控件的ID,必须具有value属性(如input),用于存储真实值
+*/
+</pre>					
+				    <p><input class="runcode" name="demo_inp5"/>真实的日期值是:<input class="runcode" id="realInp" type="text"/></p>
+				</li>
+				<li>
+			        <h3>自动纠错功能</h3>
+					<p></p>
+<pre class="prettyprint" id="demo_position">
+当日期框中的值不符合格式时,系统会尝试自动修复,显示当前日期。
+</pre>
+				</li>
+				<p></p>
+			</ol>
+			<h2>日期范围限制</h2>
+			<p></p>
+			<ol>
+				<li>
+			        <h3>静态限制</h3>
+					<p></p>
+<pre class="prettyprint" id="demo_inp6">
+/*限制日期的范围是 2012-03-08到2012-05-27 (注意minDate和maxDate的格式一定要是yyyy-MM-dd)*/
+$.calendar({ minDate:'2012-03-08', maxDate:'2012-05-27' });
+</pre>
+					<p><input class="runcode" name="demo_inp6"/></p>
+				</li>
+				<li>
+			        <h3>动态限制(请参阅 <a href="../_doc/api.html" target="_blank">API参数控制接口</a> 里的动态变量表)</h3>
+					<p></p>
+<pre class="prettyprint" id="demo_inp7">
+/*只能选择今天以后的日期，包括今天*/
+$.calendar({ maxDate:'%y-%M-%d' });
+</pre>
+					<p><input class="runcode" name="demo_inp7"/></p>
+				</li>
+				<li>
+			        <h3>只能选择今天以后的日期(不包括今天)</h3>
+					<p></p>
+<pre class="prettyprint" id="demo_inp8">
+/*参数noToday为true时指不包括今天，为false或不写此参数为包括今天*/
+$.calendar({ minDate:'%y-%M-%d', noToday:true });
+</pre>
+					<p><input class="runcode" name="demo_inp8"/></p>
+				</li>
+				<li>
+			        <h3>只能选择当前年当前月3号到2014年12前月的当前天之间的日期</h3>
+					<p></p>
+<pre class="prettyprint" id="demo_inp9">
+$.calendar({ minDate:'%y-%M-03', maxDate:'2014-12-%d' });
+</pre>
+					<p><input class="runcode" name="demo_inp9"/></p>
+				</li>
+				<li>
+			        <h3>前面的日期不能大于后面的日期</h3>
+					<p></p>
+<pre class="prettyprint" id="demo_inp10">
+$.calendar({ maxDate:'#inp12' });
+</pre>
+<pre class="prettyprint" id="demo_inp11">
+$.calendar({ minDate:'#inp11' });
+</pre>
+					<p>有效期从<input class="runcode" id="inp11" name="demo_inp10"/>到<input class="runcode" id="inp12" type="text" name="demo_inp11"/></p>
+				</li>
+				<li>
+			        <h3>前面的日期不能大于后面的日期(targetFormat参数示例)</h3>
+					<p></p>
+<pre class="prettyprint" id="demo_inp12">
+$.calendar({ maxDate:'#inp14', format:'yyyyMMdd', targetFormat:'yyyy年MM月dd日' });
+</pre>
+<pre class="prettyprint" id="demo_inp13">
+$.calendar({ minDate:'#inp13', format:'yyyy年MM月dd日', targetFormat:'yyyyMMdd' });
+</pre>
+					<p>有效期从<input class="runcode" id="inp13" name="demo_inp12" value="20120305"/>到<input class="runcode" id="inp14" name="demo_inp13" value="2012年03月21日"/></p>
+				</li>
+				<li>
+			        <h3>无效周(可以使用此功能禁用周日至周六所对应的日期,相关属性:disWeek (0至6 分别代表 周日至周六))</h3>
+					<p>备注：回调函数中this指向窗口实例对象本身</p>
+<pre class="prettyprint" id="demo_inp14">
+$.calendar({ disWeek:'6' });
+</pre>
+<pre class="prettyprint" id="demo_inp15">
+$.calendar({ disWeek:'0,4' });
+</pre>
+					<p><input class="runcode" name="demo_inp14"/>&nbsp;&nbsp;<input class="runcode" name="demo_inp15"/></p>
+				</li>
+			</ol>
+			<h2>无效日期(可以使用此功能禁用,所指定的一个或多个日期,只要你熟悉正则表达式,你可以尽情发挥)</h2>
+			<p></p>
+			<ol>
+				<li>
+			        <h3>禁用 每个月份的 5日 15日 25日</h3>
+					<p></p>
+<pre class="prettyprint" id="demo_inp16">
+/*'5$' 表示以 5 结尾 注意 $ 的用法*/
+$.calendar({ disDate:['5$'] });
+</pre>
+					<p><input class="runcode" name="demo_inp16"/></p>
+				</li>
+				<li>
+			        <h3>禁用 所有早于2000-01-01的日期</h3>
+					<p></p>
+<pre class="prettyprint" id="demo_inp17">
+$.calendar({ disDate:['^19'] });
+</pre>
+					<p><input class="runcode" name="demo_inp17" value="1999-12-30"/></p>
+				</li>
+				<li>
+			        <h3>禁用 2012-05-05 和 2012-05-24</h3>
+					<p></p>
+<pre class="prettyprint" id="demo_inp18">
+$.calendar({ disDate:['2012-05-05','2012-05-24'] });
+</pre>
+					<p><input class="runcode" name="demo_inp18" value="2012-05-13"/></p>
+				</li>
+				<li>
+			        <h3>禁用 2012-所有月份-04 和 2012-05-29</h3>
+					<p></p>
+<pre class="prettyprint" id="demo_inp19">
+$.calendar({ disDate:['2012-..-04','2012-05-29'] });
+</pre>
+					<p><input class="runcode" name="demo_inp19"/></p>
+				</li>
+				<li>
+			        <h3>禁用 [2000至2008]-05-01 和 2012-03-29</h3>
+					<p></p>
+<pre class="prettyprint" id="demo_inp20">
+$.calendar({ disDate:['200[0-8]-05-01','2012-03-29'] });
+</pre>
+					<p><input class="runcode" name="demo_inp20"/></p>
+				</li>
+				<li>
+			        <h3>禁用 所有年份和所有月份的第7天和今天</h3>
+					<p></p>
+<pre class="prettyprint" id="demo_inp21">
+$.calendar({ disDate:['....-..-07','%y-%M-%d'] });
+</pre>
+					<p><input class="runcode" name="demo_inp21"/></p>
+				</li>
+			</ol>
+			<h2>有效日期</h2>
+			<p>使用无效日期可以很方便的禁用不可用的日期,但是在只需要启用少部分日期的情况下,有效日期的功能就非常适合了<br/><strong style="color:red">关键属性: enDate</strong> 默认为false, 为true时,无效日期变成有效日期</p>
+			<ol>
+				<li>
+			        <h3>启用 每个月份的 5日 15日 25日</h3>
+					<p></p>
+<pre class="prettyprint" id="demo_inp22">
+$.calendar({ disDate:['5$'], enDate:true });
+</pre>
+					<p><input class="runcode" name="demo_inp22"/></p>
+				</li>
+			</ol>
+			<h2>自定义事件</h2>
+			<p></p>
+			<ol>
+				<li>
+			        <h3>自定义事件</h3>
+					<p></p>
+<pre class="prettyprint" id="demo_api_7">
+如果你需要做一些附加的操作,你也不必担心,日期控件自带的自定义事件可以满足你的需求.此外,你还可以在自定义事件中调用提供的API库来做更多的运算和扩展,绝对可以通过很少的代码满足你及其个性化的需求.
+注意下面几个重要的指针,将对你的编程带来很多便利
+this: 指向日历对象实例，也就是$.calendar对象
+this.inpE: 指向文本框
+this.DOM: 指向日历控件的DOM对象
+注意:函数原型必须使用类似 function(dp){} 的模式,这样子,在函数内部才可以使用this
+</pre>
+					<p></p>
+				</li>
+				<li>
+			        <h3>onSetDate事件</h3>
+					<p></p>
+<pre class="prettyprint" id="demo_inp23">
+$.calendar({ onSetDate:function(){alert(this.inpE.value);} });
+</pre>
+					<p><input class="runcode" name="demo_inp23" value="2012-03-27"/></p>
+				</li>
+				<li>
+			        <h3>getDate()用法</h3>
+					<p></p>
+<pre class="prettyprint" id="demo_inp24">
+$.calendar({ onSetDate:function(){alert('日期框原来的值为:'+this.inpE.value+',要用新选择的值:'+this.getDate('date')+'覆盖吗?');} });
+</pre>
+					<p><input class="runcode" name="demo_inp24" value="2012-03-15"/></p>
+				</li>
+			</ol>
+			<p>示例中各API接口的详细说明请参阅 <a href="../_doc/api.html">API参数控制接口</a></p>
+		</div>
+		<div class="line">&nbsp;</div>
+		<div class="footer">
+		    <div class="ft_copy">Copyright &copy <a href="http://www.lhgcore.com/" target="_blank">lhgcore.com</a>. All rights reserved. | 豫ICP备06002782号 | <a href="http://t.qq.com/lhgcore" target="_blank">官方微博</a></div>
+		</div>
+	</div>
+	<script type="text/javascript">prettyPrint();</script>
+	</div>
+</body>
+</html>

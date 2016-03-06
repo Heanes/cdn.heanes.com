@@ -1,0 +1,149 @@
+@CHARSET "UTF-8";
+/* 后台重设基本标签样式 */
+/****-globals-功能:重设浏览器默认样式****/
+
+/* 防止用户自定义背景颜色对网页的影响，添加让用户可以自定义字体 */
+html{
+	color:#000;
+	background:#fff;
+	-webkit-text-size-adjust:100%;
+	-ms-text-size-adjust:100%
+}
+
+/* 边距 */
+
+/* 内外边距通常让各个浏览器样式的表现位置不同 */
+html, iframe, frame, body, div,
+dl, dt, dd, ul, ol, li,
+h1, h2, h3, h4, h5, h6, pre, code,
+form, fieldset, legend, textarea,
+p, blockquote,
+th, td,
+button, article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section{
+	margin:0;
+	padding:0;
+	list-style:none;
+	border:0;
+}
+
+/*定义字体*/
+input, select, textarea{
+	font-size:100%
+}
+
+input, button, textarea, select{
+	*font-size:100%
+}
+
+/* 标题都自定义,适应多个系统应用 */
+q:before, q:after{
+	content:''
+}
+
+/*--- 列表 ---*/
+/* 去掉列表前的标识,li 会继承 */
+ol, ul{
+	list-style:none
+}
+
+/*--- 文字输入框 --*/
+input{
+	box-sizing:border-box;
+	-webkit-box-sizing:border-box;
+}
+
+input[type="submit"], input[type="reset"]{
+	border:none;
+	cursor:pointer;
+	-webkit-appearance:button;
+}
+
+/* 按钮 */
+button{
+	cursor:pointer;
+	font-size:100%;
+}
+
+/*--- 图片 ---*/
+img{
+	vertical-align:middle;
+}
+
+/*------------------------- 表格 S ---------------*/
+/* 去掉各Table cell 的边距并让其边重合 */
+table{
+	border-collapse:collapse;
+	border-spacing:0;
+}
+
+/* 对齐是排版最重要的因素,别让什么都居中 */
+caption, th{
+	text-align:left
+}
+
+/* IE bug fixed:th 不继承 text-align*/
+th{
+	text-align:inherit
+}
+
+/*-------------------------- 表格 E -----------------*/
+
+/* 去除默认边框 */
+fieldset, img{
+	border:0
+}
+
+/* ie6 7 8(q) bug 显示为行内表现 */
+iframe{
+	display:block;
+	width:100%;
+	height:100%;
+	border:0;
+}
+
+/* 去掉 firefox 下此元素的边框 */
+
+/*--- 新元素样式 ---*/
+address, caption, cite, code, dfn, em, th, var{
+	_font-style:normal;
+	font-weight:500
+}
+
+abbr, acronym{
+	border:0;
+	font-variant:normal
+}
+
+/* 统一上标和下标 */
+sub, sup{
+	font-size:75%;
+	line-height:0;
+	position:relative;
+	vertical-align:baseline
+}
+
+sup{
+	top:-0.5em
+}
+
+sub{
+	bottom:-0.25em
+}
+
+/* 一致的 del 样式 */
+del{
+	text-decoration:line-through
+}
+
+/* HTML5 媒体文件跟 img 保持一致 */
+audio, canvas, video{
+	display:inline-block;
+	*display:inline;
+	*zoom:1
+}
+
+/* 重设 HTML5 标签,IE 需要在 js 中 createElement(TAG) */
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section{
+	display:block
+}

@@ -1,0 +1,874 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Dynarch Calendar Documentation</title>
+<link rel="stylesheet" href="css/jscal2.css" media="all">
+<link rel="stylesheet" href="css/gold.css" media="all">
+<link rel="stylesheet" href="css/border-radius.css" media="all">
+<script src="js/jscal2.js"></script>
+<script src="js/en.js"></script>
+<style type="text/css">
+  body {
+    background-color: #ffe;
+  }
+  .highlight { color: #f00 !important; font-weight: bold }
+  .highlight2 { color: #090 !important; font-weight: bold }
+  .birthday { background: #fff; font-weight: bold }
+  .birthday.DynarchCalendar-day-selected { background: #89f; font-weight: bold }
+</style>
+</head>
+<body>
+<div class="gsf-page-content">
+<p>This is the documentation of the new Dynarch Calendar (“JSCal2”).  Note that
+it is not compatible with our old calendar project.  The new calendar has
+less predefined ways to setup, and rather focuses on an extensive API that
+you can use to <em>do what you want</em>.  Because it's a lesson I've learned that
+<em>you can't please everybody</em>, so it's better to provide lots of features so
+that people can please themselves. ;-)</p>
+<h2><a name="sec1" id="sec1"></a>
+Contents</h2>
+<div class="contents">
+<dl>
+<dt>
+<a href="#sec1">Contents</a>
+</dt>
+<dt>
+<a href="#sec2">Installation</a>
+</dt>
+<dt>
+<a href="#sec3">Basic setup — constructor</a>
+</dt>
+<dd>
+<dl>
+<dt>
+<a href="#sec4">Inline calendar example</a>
+</dt>
+<dt>
+<a href="#sec5">Popup calendar example</a>
+</dt>
+<dt>
+<a href="#sec6"><code>onSelect</code> event handler</a>
+</dt>
+<dt>
+<a href="#sec7">Selection object</a>
+</dt>
+<dt>
+<a href="#sec8">Disabling dates</a>
+</dt>
+<dt>
+<a href="#sec9">Highlight special dates, date tooltips</a>
+</dt>
+</dl>
+</dd>
+<dt>
+<a href="#sec10">Calendar object reference</a>
+</dt>
+<dd>
+<dl>
+<dt>
+<a href="#sec11">moveTo(date, animated)</a>
+</dt>
+<dt>
+<a href="#sec12">isDisabled(date)</a>
+</dt>
+<dt>
+<a href="#sec13">toggleMenu()</a>
+</dt>
+<dt>
+<a href="#sec14">refresh(noBody)</a>
+</dt>
+<dt>
+<a href="#sec15">redraw()</a>
+</dt>
+<dt>
+<a href="#sec16">setLanguage(code)</a>
+</dt>
+<dt>
+<a href="#sec17">focus()</a>
+</dt>
+<dt>
+<a href="#sec18">blur()</a>
+</dt>
+<dt>
+<a href="#sec19">showAt(x, y, animated)</a>
+</dt>
+<dt>
+<a href="#sec20">hide()</a>
+</dt>
+<dt>
+<a href="#sec21">popup(anchor, align)</a>
+</dt>
+<dt>
+<a href="#sec22">manageFields(trigger, inputField, dateFormat)</a>
+</dt>
+<dt>
+<a href="#sec23">getTime()</a>
+</dt>
+<dt>
+<a href="#sec24">setTime(time, [ nohooks ])</a>
+</dt>
+<dt>
+<a href="#sec25">getHours()</a>
+</dt>
+<dt>
+<a href="#sec26">getMinutes()</a>
+</dt>
+<dt>
+<a href="#sec27">setHours(h)</a>
+</dt>
+<dt>
+<a href="#sec28">setMinutes(m)</a>
+</dt>
+<dt>
+<a href="#sec29">addEventListener(event, func)</a>
+</dt>
+<dt>
+<a href="#sec30">removeEventListener(event, func)</a>
+</dt>
+</dl>
+</dd>
+<dt>
+<a href="#sec31">Global (static) utility functions</a>
+</dt>
+<dd>
+<dl>
+<dt>
+<a href="#sec32">Calendar.dateToInt(date)</a>
+</dt>
+<dt>
+<a href="#sec33">Calendar.intToDate(numeric_value)</a>
+</dt>
+<dt>
+<a href="#sec34">Calendar.printDate(date, format)</a>
+</dt>
+<dt>
+<a href="#sec35">Calendar.parseDate(dateString, monthFirst, today)</a>
+</dt>
+<dt>
+<a href="#sec36">Calendar.formatString(str, prop)</a>
+</dt>
+</dl>
+</dd>
+</dl>
+</div>
+
+
+
+<h2><a name="sec2" id="sec2"></a>
+Installation</h2>
+
+<p class="first">Unzip the archive and copy the "<code>src</code>" subdirectory into a path such that you
+can access jscal2.js using the following URL:</p>
+
+<blockquote>
+<p class="quoted"><a href="http://www.yourdomain.com/JSCal2/js/jscal2.js">http://www.yourdomain.com/JSCal2/js/jscal2.js</a></p>
+</blockquote>
+
+<p>(i.e. the “src” directory should become “JSCal2” in the document root of
+your website).</p>
+
+<p>Here is a sample <code>&lt;head&gt;</code> section that loads the base CSS file, a color theme
+and the required JS files:</p>
+
+<pre class="src">&lt;<span style="color: #a020f0;">!DOCTYPE</span> html PUBLIC
+          <span style="color: #bc8f8f;">"-//W3C//DTD XHTML 1.0 Transitional//EN"</span>
+          <span style="color: #bc8f8f;">"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"</span>&gt;
+&lt;<span style="color: #0000ff;">html</span>&gt;
+  &lt;<span style="color: #0000ff;">head</span>&gt;
+    &lt;<span style="color: #0000ff;">link</span> <span style="color: #b8860b;">rel</span>=<span style="color: #bc8f8f;">"stylesheet"</span> <span style="color: #b8860b;">type</span>=<span style="color: #bc8f8f;">"text/css"</span> <span style="color: #b8860b;">href</span>=<span style="color: #bc8f8f;">"/JSCal2/css/jscal2.css"</span> /&gt;
+    &lt;<span style="color: #0000ff;">link</span> <span style="color: #b8860b;">rel</span>=<span style="color: #bc8f8f;">"stylesheet"</span> <span style="color: #b8860b;">type</span>=<span style="color: #bc8f8f;">"text/css"</span> <span style="color: #b8860b;">href</span>=<span style="color: #bc8f8f;">"/JSCal2/css/border-radius.css"</span> /&gt;
+    &lt;<span style="color: #0000ff;">link</span> <span style="color: #b8860b;">rel</span>=<span style="color: #bc8f8f;">"stylesheet"</span> <span style="color: #b8860b;">type</span>=<span style="color: #bc8f8f;">"text/css"</span> <span style="color: #b8860b;">href</span>=<span style="color: #bc8f8f;">"/JSCal2/css/gold/gold.css"</span> /&gt;
+    &lt;<span style="color: #0000ff;">script</span> <span style="color: #b8860b;">type</span>=<span style="color: #bc8f8f;">"text/javascript"</span> <span style="color: #b8860b;">src</span>=<span style="color: #bc8f8f;">"/JSCal2/js/jscal2.js"</span>&gt;&lt;/<span style="color: #0000ff;">script</span>&gt;
+    &lt;<span style="color: #0000ff;">script</span> <span style="color: #b8860b;">type</span>=<span style="color: #bc8f8f;">"text/javascript"</span> <span style="color: #b8860b;">src</span>=<span style="color: #bc8f8f;">"/JSCal2/js/lang/en.js"</span>&gt;&lt;/<span style="color: #0000ff;">script</span>&gt;
+  &lt;/<span style="color: #0000ff;">head</span>&gt;
+</pre>
+
+<p><code>jscal2.css</code> is essential and defines a minimal skin.  You can optionally
+include <code>border-radius.css</code> to add round corners in browsers that support it
+(Firefox, Safari and Chrome) and load an additional color theme if you like
+(<code>gold/gold.css</code>).</p>
+
+<p>The required JavaScript files that you need to load are <code>jscal2.js</code> and at
+least one language file (for example <code>en.js</code>).</p>
+
+<p>Also note the DOCTYPE line.  It is important for older versions of Internet
+Explorer to enter “standards mode”.  IE8 should work fine without it.</p>
+
+<h2><a name="sec3" id="sec3"></a>
+<a name="constructor" id="constructor"></a>Basic setup — constructor</h2>
+
+<p><code>Calendar.setup(args)</code> simply constructs a new calendar and is equivalent to
+calling <code>new Calendar(args)</code>.  <code>args</code> is a JavaScript hash that can have the
+following properties:</p>
+
+<ul>
+<li><code>animation</code> — defaults to <code>true</code> unless browser is IE6 (defaults to <code>false</code> in
+IE6).  If you pass <code>true</code> then it will force animation in all browsers
+(including IE6), if you pass <code>false</code> then it will disable animation.</li>
+<li><code>cont</code> — container element (for inline calendar, not popup).  Pass the ID
+of an element to contain the calendar (or reference to that DOM element
+if you have it).</li>
+<li><code>bottomBar</code> — boolean, default <code>true</code>.  If you pass false then the bottom bar
+containing the “Today” button won't be displayed.</li>
+<li><code>date</code> — default date for the calendar.  This determines the month/year
+that the calendar will initially display.  See also <code>selection</code> below.</li>
+<li><code>fdow</code> — first day of week.  Default is defined in the language file.  Pass
+0 for Sunday, 1 for Monday etc.</li>
+<li><code>min</code> — the minimum (oldest) date that the calendar allows for selection.</li>
+<li><code>max</code> — same as minimum, but limits on the right side.</li>
+<li><code>reverseWheel</code> — default <code>false</code>.  Pass <code>true</code> here if you want to reverse the
+direction of the mouse wheel movement.</li>
+<li><code>selectionType</code> - default <code>Calendar.SEL_SINGLE</code>.  Pass <code>Calendar.SEL_MULTIPLE</code>
+if you want to allow multiple dates selection.</li>
+<li><code>selection</code> — the initial date selection for the calendar.  By default, the
+selection is empty.  See <a href="http://www.dynarch.com/jscal/selection.html#init-selection">the Selection object</a> for more details.</li>
+<li><code>weekNumbers</code> — default <code>false</code>.  Pass <code>true</code> to display the week numbers
+column.</li>
+<li><code>checkRange</code> — default <code>false</code>.  When you want to allow range selection but
+prevent one from selecting disabled dates (see the <code>disabled</code> argument
+below) you should pass this <code>true</code>, and the calendar will check each date.</li>
+<li><code>align</code> — default alignment, for <a href="#popup-mode">popup calendars</a>.  See the <a href="#method-popup">popup method</a> for
+details on the format of <code>align</code>.</li>
+<li><code>inputField</code> — an ID or reference to an <code>&lt;input&gt;</code> element that the calendar
+will automatically update.  Only for popup calendars.</li>
+<li><code>trigger</code> — an ID of a <code>&lt;button&gt;</code> element (in fact any element type) that
+should trigger the popup calendar (the calendar hooks on the “onclick”
+event).</li>
+<li><code>dateFormat</code> — the format of the date to be displayed in the input field.
+See the <a href="#printDate">Calendar.printDate</a> function for information on the format.</li>
+<li><code>opacity</code> — default 1 if browser is IE, 3 otherwise.  Specifies the level
+of “opacity effects” to do in animation.  IE is quite slow with this.
+Specify 0 for no opacity, or 1, 2 or 3 for increasing levels of “eye
+candyness”.</li>
+<li><code>titleFormat</code> — the format of the title bar.  By default this is <code>"%b %Y"</code>
+which means it displays the short month name and full year.  See
+<a href="#printDate">Calendar.printDate</a>.</li>
+<li><code>showTime</code> — default <code>false</code>.  If you enable this the calendar will display a
+time selector.  You can pass <code>true</code> to enable 24h time selector, or pass <code>12</code>
+to enable the am/pm time selector.</li>
+<li><code>timePos</code> — the position of the time selector in the bottom bar.  By
+default this is <code>"right"</code>.  Pass <code>"left"</code> if you want the time selector to
+the left of the “Today” button.</li>
+<li><code>time</code> — initial time to display in the time selector.  This is an integer
+in the form <code>"HHMM"</code> — for example if you want the calendar to display 9:45
+pm, pass <code>2145</code>.  By default the calendar will use the current time,
+adjusted to a multiple of <code>minuteStep</code>.</li>
+<li><code>minuteStep</code> — the increment/decrement step for the minute field.  By
+default this is set to 5 minutes.</li>
+<li><code>onSelect</code> — a callback of your own that will be called when the selection
+changes.  See the <a href="#selection-object">selection object</a>.</li>
+<li><code>onChange</code> — a callback that will be called when the calendar changes
+position (month and/or year).</li>
+<li><code>onTimeChange</code> — a callback that will be called when the time is changed in
+the time selector.  It will get two arguments: reference to the calendar,
+and the new time (in integer representation i.e. <code>2145</code> for 9:45 pm).</li>
+<li><code>disabled</code> — a callback that will be called to determine additional
+disabled dates.  See <a href="#disabling-dates">disabling dates</a>.</li>
+<li><code>dateInfo</code> — a callback that will be called to get additional information
+about a date, such as a special CSS class name to add to it, or a tooltip
+to display when it is hovered.  See
+<a href="#dateInfo">highlight special dates and date tooltips</a>.</li>
+<li><code>onFocus</code> — a callback that will be called when the calendar receives
+focus.</li>
+<li><code>onBlur</code> — will be called when the calendar loses focus.</li>
+<li>fixed — pass true for this to disable the ability to move popup calendar
+by drag'n'drop.</li>
+<li>noScroll — pass true to disable catching the mouse wheel events (so that
+the mouse wheel inside the calendar will scroll the page).</li>
+</ul>
+
+<p>All arguments are optional.  However, you should provide one of <code>cont</code> (for
+inline calendars) or <code>trigger</code> for popup calendars, or else provide your own
+code to display a popup calendar.  We'll see how this can be done later.</p>
+
+<h3><a name="sec4" id="sec4"></a>
+Inline calendar example</h3>
+
+<p class="first">For example here is how we created the calendar on the <a href="http://www.dynarch.com/projects/calendar/">front page</a>:</p>
+
+<pre class="src">&lt;<span style="color: #0000ff;">table</span> <span style="color: #b8860b;">style</span>=<span style="color: #bc8f8f;">"float: left; margin: 0 1em 1em 0"</span>&gt;&lt;<span style="color: #0000ff;">tr</span>&gt;&lt;<span style="color: #0000ff;">td</span>&gt;
+
+  <span style="color: #b22222;">&lt;!-- </span><span style="color: #b22222;">element that will contain the calendar </span><span style="color: #b22222;">--&gt;</span>
+  &lt;<span style="color: #0000ff;">div</span> <span style="color: #b8860b;">id</span>=<span style="color: #bc8f8f;">"calendar-container"</span>&gt;&lt;/<span style="color: #0000ff;">div</span>&gt;
+
+  <span style="color: #b22222;">&lt;!-- </span><span style="color: #b22222;">here we will display selection information </span><span style="color: #b22222;">--&gt;</span>
+  &lt;<span style="color: #0000ff;">div</span> <span style="color: #b8860b;">id</span>=<span style="color: #bc8f8f;">"calendar-info"</span> <span style="color: #b8860b;">style</span>=<span style="color: #bc8f8f;">"text-align: center; margin-top: 0.3em"</span>&gt;&lt;/<span style="color: #0000ff;">div</span>&gt;
+
+&lt;/<span style="color: #0000ff;">td</span>&gt;&lt;/<span style="color: #0000ff;">tr</span>&gt;&lt;/<span style="color: #0000ff;">table</span>&gt;
+&lt;<span style="color: #0000ff;">script</span> <span style="color: #b8860b;">type</span>=<span style="color: #bc8f8f;">"text/javascript"</span>&gt;//&lt;![CDATA[
+</pre>
+
+<pre class="src">Calendar.setup({
+    <span style="color: #b8860b;">cont</span>          : <span style="color: #bc8f8f;">"calendar-container"</span>,
+    <span style="color: #b8860b;">weekNumbers</span>   : <span style="color: #5f9ea0;">true</span>,
+    <span style="color: #b8860b;">selectionType</span> : Calendar.SEL_MULTIPLE,
+    <span style="color: #b8860b;">selection</span>     : Calendar.dateToInt(<span style="color: #a020f0;">new</span> Date()),
+    <span style="color: #b8860b;">showTime</span>      : 12,
+    <span style="color: #0000ff;">onSelect</span>      : <span style="color: #a020f0;">function</span>() {
+        <span style="color: #a020f0;">var</span> <span style="color: #b8860b;">count</span> = <span style="color: #da70d6;">this</span>.selection.countDays();
+        <span style="color: #a020f0;">if</span> (count == 1) {
+            <span style="color: #a020f0;">var</span> <span style="color: #b8860b;">date</span> = <span style="color: #da70d6;">this</span>.selection.get()[0];
+            date = Calendar.intToDate(date);
+            date = Calendar.printDate(date, <span style="color: #bc8f8f;">"%A, %B %d, %Y"</span>);
+            $(<span style="color: #bc8f8f;">"calendar-info"</span>).innerHTML = date;
+        } <span style="color: #a020f0;">else</span> {
+            $(<span style="color: #bc8f8f;">"calendar-info"</span>).innerHTML = Calendar.formatString(
+                <span style="color: #bc8f8f;">"${count:no date|one date|two dates|# dates} selected"</span>,
+                { <span style="color: #b8860b;">count</span>: count }
+            );
+        }
+    },
+    <span style="color: #0000ff;">onTimeChange</span>  : <span style="color: #a020f0;">function</span>(<span style="color: #2e8b57;">cal</span>) {
+        <span style="color: #a020f0;">var</span> <span style="color: #b8860b;">h</span> = cal.getHours(), <span style="color: #b8860b;">m</span> = cal.getMinutes();
+        <span style="color: #b22222;">// zero-pad them
+</span>        <span style="color: #a020f0;">if</span> (h &lt; 10) h = <span style="color: #bc8f8f;">"0"</span> + h;
+        <span style="color: #a020f0;">if</span> (m &lt; 10) m = <span style="color: #bc8f8f;">"0"</span> + m;
+        $(<span style="color: #bc8f8f;">"calendar-info"</span>).innerHTML = Calendar.formatString(<span style="color: #bc8f8f;">"Time changed to ${hh}:${mm}"</span>, {
+            <span style="color: #b8860b;">hh</span>: h,
+            <span style="color: #b8860b;">mm</span>: m
+        });
+    }
+});
+</pre>
+
+<pre class="src">//]]&gt;&lt;/<span style="color: #0000ff;">script</span>&gt;
+</pre>
+
+<h3><a name="sec5" id="sec5"></a>
+<a name="popup-mode" id="popup-mode"></a>Popup calendar example</h3>
+
+<p class="first">Unlike inline calendars, a popup calendar isn't displayed at all times, but
+it pops up whenever it's needed, such as when the user presses a “select
+date” button.  In popup mode you'll normally want to use the <code>SEL_SINGLE</code>
+(default) selection type, though it's perfectly possible to use multiple
+selection.</p>
+
+<p>Here's an example of how to create a popup calendar:</p>
+
+<pre class="src">&lt;<span style="color: #0000ff;">input</span> <span style="color: #b8860b;">id</span>=<span style="color: #bc8f8f;">"calendar-inputField"</span> /&gt;&lt;<span style="color: #0000ff;">button</span> <span style="color: #b8860b;">id</span>=<span style="color: #bc8f8f;">"calendar-trigger"</span>&gt;...&lt;/<span style="color: #0000ff;">button</span>&gt;
+&lt;<span style="color: #0000ff;">script</span>&gt;
+    Calendar.setup({
+        trigger    : <span style="color: #bc8f8f;">"calendar-trigger"</span>,
+        inputField : <span style="color: #bc8f8f;">"calendar-inputField"</span>
+    });
+&lt;/<span style="color: #0000ff;">script</span>&gt;
+</pre>
+
+<h3><a name="sec6" id="sec6"></a>
+<a name="onSelect" id="onSelect"></a><code>onSelect</code> event handler</h3>
+
+<p class="first">You can supply a callback that gets triggered when the selection changes.
+For example, you might have noticed that the calendar doesn't disappear when
+you select a date in “popup” mode.  Here's how we could make it disappear:
+
+
+</p><table align="center"><tbody><tr><td>
+<input id="calendar-field"><button id="calendar-trigger" type="button">...</button>
+<script>
+Calendar.setup({
+    inputField : "calendar-field",
+    trigger    : "calendar-trigger",
+    onSelect   : function() { this.hide() }
+});
+</script>
+</td></tr></tbody></table><p></p>
+
+
+<p>Here is the code that I used for the example above:</p>
+
+<pre class="src">Calendar.setup({
+    <span style="color: #b8860b;">inputField</span> : <span style="color: #bc8f8f;">"calendar-field"</span>,
+    <span style="color: #b8860b;">trigger</span>    : <span style="color: #bc8f8f;">"calendar-trigger"</span>,
+    <span style="color: #0000ff;">onSelect</span>   : <span style="color: #a020f0;">function</span>() { <span style="color: #da70d6;">this</span>.hide() }
+});
+</pre>
+
+<p>Why doesn't it just close without us needing to add the <code>onSelect</code> handler?
+Because not everyone wants it to close—therefore, the new calendar just lets
+you define the behaviour by writing your own event handler.</p>
+
+<h3><a name="sec7" id="sec7"></a>
+<a name="selection-object" id="selection-object"></a>Selection object</h3>
+
+<p class="first">Each calendar object, as returned by <code>Calendar.setup(args)</code> or <code>new
+Calendar(args)</code>, contains a "<code>selection</code>" property.  This is an object that you
+can use to query, clear or reset the current selection.</p>
+
+<p>See <a href="http://www.dynarch.com/jscal/selection.html">the documentation of Selection object</a>.</p>
+
+<h3><a name="sec8" id="sec8"></a>
+<a name="disabling-dates" id="disabling-dates"></a>Disabling dates</h3>
+
+<p class="first">You can disable dates in two ways.  First off, you can use the <strong>min</strong> and <strong>max</strong>
+arguments to the constructor in order to limit the period that the calendar
+will allow selection in.  Example:
+
+
+</p><div id="sample1"><table class="DynarchCalendar-topCont" align="center" cellspacing="0" cellpadding="0"><tbody><tr><td><div class="DynarchCalendar"><button class="DynarchCalendar-focusLink"></button><div class="DynarchCalendar-topBar"><div dyc-type="nav" dyc-btn="-Y" dyc-cls="hover-navBtn,pressed-navBtn" class="DynarchCalendar-prevYear DynarchCalendar-navBtn"><div></div></div><div dyc-type="nav" dyc-btn="+Y" dyc-cls="hover-navBtn,pressed-navBtn" class="DynarchCalendar-nextYear DynarchCalendar-navBtn"><div></div></div><div dyc-type="nav" dyc-btn="-M" dyc-cls="hover-navBtn,pressed-navBtn" class="DynarchCalendar-prevMonth DynarchCalendar-navBtn"><div></div></div><div dyc-type="nav" dyc-btn="+M" dyc-cls="hover-navBtn,pressed-navBtn" class="DynarchCalendar-nextMonth DynarchCalendar-navBtn"><div></div></div><table class="DynarchCalendar-titleCont" align="center" cellspacing="0" cellpadding="0"><tbody><tr><td><div dyc-type="title" dyc-btn="menu" dyc-cls="hover-title,pressed-title" class="DynarchCalendar-title"><div unselectable="on">Jun 2009</div></div></td></tr></tbody></table><div class="DynarchCalendar-dayNames"><table align="center" cellspacing="0" cellpadding="0"><tbody><tr><td><div>Mo</div></td><td><div>Tu</div></td><td><div>We</div></td><td><div>Th</div></td><td><div>Fr</div></td><td><div class="DynarchCalendar-weekend">Sa</div></td><td><div class="DynarchCalendar-weekend">Su</div></td></tr></tbody></table></div></div><div class="DynarchCalendar-body"><table class="DynarchCalendar-bodyTable" align="center" cellspacing="0" cellpadding="0"><tbody><tr class="DynarchCalendar-week DynarchCalendar-first-row"><td class=" DynarchCalendar-first-col"><div dyc-type="date" unselectable="on" dyc-date="20090601" class="DynarchCalendar-day">1</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20090602" class="DynarchCalendar-day">2</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20090603" class="DynarchCalendar-day">3</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20090604" class="DynarchCalendar-day">4</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20090605" class="DynarchCalendar-day">5</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20090606" class="DynarchCalendar-day DynarchCalendar-weekend">6</div></td><td class=" DynarchCalendar-last-col"><div dyc-type="date" unselectable="on" dyc-date="20090607" class="DynarchCalendar-day DynarchCalendar-weekend">7</div></td></tr><tr class="DynarchCalendar-week"><td class=" DynarchCalendar-first-col"><div dyc-type="date" unselectable="on" dyc-date="20090608" class="DynarchCalendar-day">8</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20090609" class="DynarchCalendar-day">9</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20090610" class="DynarchCalendar-day">10</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20090611" class="DynarchCalendar-day">11</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20090612" class="DynarchCalendar-day">12</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20090613" class="DynarchCalendar-day DynarchCalendar-weekend">13</div></td><td class=" DynarchCalendar-last-col"><div dyc-type="date" unselectable="on" dyc-date="20090614" class="DynarchCalendar-day DynarchCalendar-weekend">14</div></td></tr><tr class="DynarchCalendar-week"><td class=" DynarchCalendar-first-col"><div dyc-type="date" unselectable="on" dyc-date="20090615" class="DynarchCalendar-day">15</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20090616" class="DynarchCalendar-day">16</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20090617" class="DynarchCalendar-day">17</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20090618" class="DynarchCalendar-day">18</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20090619" class="DynarchCalendar-day">19</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20090620" class="DynarchCalendar-day DynarchCalendar-weekend">20</div></td><td class=" DynarchCalendar-last-col"><div dyc-type="date" unselectable="on" dyc-date="20090621" class="DynarchCalendar-day DynarchCalendar-weekend">21</div></td></tr><tr class="DynarchCalendar-week"><td class=" DynarchCalendar-first-col"><div dyc-type="date" unselectable="on" dyc-date="20090622" class="DynarchCalendar-day">22</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20090623" class="DynarchCalendar-day">23</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20090624" class="DynarchCalendar-day">24</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20090625" class="DynarchCalendar-day">25</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20090626" class="DynarchCalendar-day">26</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20090627" class="DynarchCalendar-day DynarchCalendar-weekend">27</div></td><td class=" DynarchCalendar-last-col"><div dyc-type="date" unselectable="on" dyc-date="20090628" class="DynarchCalendar-day DynarchCalendar-weekend">28</div></td></tr><tr class="DynarchCalendar-week"><td class=" DynarchCalendar-first-col"><div dyc-type="date" unselectable="on" dyc-date="20090629" class="DynarchCalendar-day">29</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20090630" class="DynarchCalendar-day">30</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20090701" class="DynarchCalendar-day DynarchCalendar-day-othermonth">1</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20090702" class="DynarchCalendar-day DynarchCalendar-day-othermonth">2</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20090703" class="DynarchCalendar-day DynarchCalendar-day-othermonth">3</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20090704" class="DynarchCalendar-day DynarchCalendar-weekend DynarchCalendar-day-othermonth">4</div></td><td class=" DynarchCalendar-last-col"><div dyc-type="date" unselectable="on" dyc-date="20090705" class="DynarchCalendar-day DynarchCalendar-weekend DynarchCalendar-day-othermonth">5</div></td></tr><tr class="DynarchCalendar-week DynarchCalendar-last-row"><td class=" DynarchCalendar-first-col"><div dyc-type="date" unselectable="on" dyc-date="20090706" class="DynarchCalendar-day DynarchCalendar-day-othermonth">6</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20090707" class="DynarchCalendar-day DynarchCalendar-day-othermonth">7</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20090708" class="DynarchCalendar-day DynarchCalendar-day-othermonth">8</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20090709" class="DynarchCalendar-day DynarchCalendar-day-othermonth">9</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20090710" class="DynarchCalendar-day DynarchCalendar-day-othermonth">10</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20090711" class="DynarchCalendar-day DynarchCalendar-weekend DynarchCalendar-day-othermonth">11</div></td><td class=" DynarchCalendar-last-col"><div dyc-type="date" unselectable="on" dyc-date="20090712" class="DynarchCalendar-day DynarchCalendar-weekend DynarchCalendar-day-othermonth">12</div></td></tr></tbody></table></div><div class="DynarchCalendar-bottomBar"><table align="center" cellspacing="0" cellpadding="0" style="width:100%"><tbody><tr><td><table align="center" cellspacing="0" cellpadding="0"><tbody><tr><td><div dyc-btn="today" dyc-cls="hover-bottomBar-today,pressed-bottomBar-today" dyc-type="bottomBar-today" class="DynarchCalendar-bottomBar-today">Today</div></td></tr></tbody></table></td></tr></tbody></table></div><div class="DynarchCalendar-menu" style="opacity: 0.85; display: none;"><table height="100%" align="center" cellspacing="0" cellpadding="0"><tbody><tr><td><table style="margin-top: 1.5em" align="center" cellspacing="0" cellpadding="0"><tbody><tr><td colspan="3"><input dyc-btn="year" class="DynarchCalendar-menu-year" size="6" value="2015"></td></tr><tr><td><div dyc-type="menubtn" dyc-cls="hover-navBtn,pressed-navBtn" dyc-btn="today">Go Today</div></td></tr></tbody></table><p class="DynarchCalendar-menu-sep">&nbsp;</p><table class="DynarchCalendar-menu-mtable" align="center" cellspacing="0" cellpadding="0"><tbody><tr><td><div dyc-type="menubtn" dyc-cls="hover-navBtn,pressed-navBtn" dyc-btn="m0" class="DynarchCalendar-menu-month">Jan</div></td><td><div dyc-type="menubtn" dyc-cls="hover-navBtn,pressed-navBtn" dyc-btn="m1" class="DynarchCalendar-menu-month">Feb</div></td><td><div dyc-type="menubtn" dyc-cls="hover-navBtn,pressed-navBtn" dyc-btn="m2" class="DynarchCalendar-menu-month">Mar</div></td></tr><tr><td><div dyc-type="menubtn" dyc-cls="hover-navBtn,pressed-navBtn" dyc-btn="m3" class="DynarchCalendar-menu-month">Apr</div></td><td><div dyc-type="menubtn" dyc-cls="hover-navBtn,pressed-navBtn" dyc-btn="m4" class="DynarchCalendar-menu-month">May</div></td><td><div dyc-type="menubtn" dyc-cls="hover-navBtn,pressed-navBtn" dyc-btn="m5" class="DynarchCalendar-menu-month">Jun</div></td></tr><tr><td><div dyc-type="menubtn" dyc-cls="hover-navBtn,pressed-navBtn" dyc-btn="m6" class="DynarchCalendar-menu-month">Jul</div></td><td><div dyc-type="menubtn" dyc-cls="hover-navBtn,pressed-navBtn" dyc-btn="m7" class="DynarchCalendar-menu-month">Aug</div></td><td><div dyc-type="menubtn" dyc-cls="hover-navBtn,pressed-navBtn" dyc-btn="m8" class="DynarchCalendar-menu-month">Sep</div></td></tr><tr><td><div dyc-type="menubtn" dyc-cls="hover-navBtn,pressed-navBtn" dyc-btn="m9" class="DynarchCalendar-menu-month">Oct</div></td><td><div dyc-type="menubtn" dyc-cls="hover-navBtn,pressed-navBtn" dyc-btn="m10" class="DynarchCalendar-menu-month">Nov</div></td><td><div dyc-type="menubtn" dyc-cls="hover-navBtn,pressed-navBtn" dyc-btn="m11" class="DynarchCalendar-menu-month">Dec</div></td></tr></tbody></table></td></tr></tbody></table></div><div class="DynarchCalendar-tooltip"></div></div></td></tr></tbody></table></div>
+<script>
+Calendar.setup({
+    cont: "sample1",
+    min: 20090408,
+    max: 20091225
+});
+</script><p></p>
+
+
+<p>The above calendar allows selection between 8 April and 25 December 2009.
+Here's the code that we used:</p>
+
+<pre class="src">Calendar.setup({
+    <span style="color: #b8860b;">cont</span>: <span style="color: #bc8f8f;">"sample1"</span>,
+    <span style="color: #b8860b;">min</span>: 20090408,
+    <span style="color: #b8860b;">max</span>: 20091225
+});
+</pre>
+
+<p>You can also disable individual dates by supplying a callback function which
+receives a JS date object and returns <strong>true</strong> if that date must be disabled, or
+<strong>false</strong> otherwise.  Here's an example which disables all Fridays:
+
+
+</p><div id="sample2"><table class="DynarchCalendar-topCont" align="center" cellspacing="0" cellpadding="0"><tbody><tr><td><div class="DynarchCalendar"><button class="DynarchCalendar-focusLink"></button><div class="DynarchCalendar-topBar"><div dyc-type="nav" dyc-btn="-Y" dyc-cls="hover-navBtn,pressed-navBtn" class="DynarchCalendar-prevYear DynarchCalendar-navBtn"><div></div></div><div dyc-type="nav" dyc-btn="+Y" dyc-cls="hover-navBtn,pressed-navBtn" class="DynarchCalendar-nextYear DynarchCalendar-navBtn"><div></div></div><div dyc-type="nav" dyc-btn="-M" dyc-cls="hover-navBtn,pressed-navBtn" class="DynarchCalendar-prevMonth DynarchCalendar-navBtn"><div></div></div><div dyc-type="nav" dyc-btn="+M" dyc-cls="hover-navBtn,pressed-navBtn" class="DynarchCalendar-nextMonth DynarchCalendar-navBtn"><div></div></div><table class="DynarchCalendar-titleCont" align="center" cellspacing="0" cellpadding="0"><tbody><tr><td><div dyc-type="title" dyc-btn="menu" dyc-cls="hover-title,pressed-title" class="DynarchCalendar-title"><div unselectable="on">Sep 2015</div></div></td></tr></tbody></table><div class="DynarchCalendar-dayNames"><table align="center" cellspacing="0" cellpadding="0"><tbody><tr><td><div>Mo</div></td><td><div>Tu</div></td><td><div>We</div></td><td><div>Th</div></td><td><div>Fr</div></td><td><div class="DynarchCalendar-weekend">Sa</div></td><td><div class="DynarchCalendar-weekend">Su</div></td></tr></tbody></table></div></div><div class="DynarchCalendar-body"><table class="DynarchCalendar-bodyTable" align="center" cellspacing="0" cellpadding="0"><tbody><tr class="DynarchCalendar-week DynarchCalendar-first-row"><td class=" DynarchCalendar-first-col"><div dyc-type="date" unselectable="on" dyc-date="20150831" class="DynarchCalendar-day DynarchCalendar-day-othermonth">31</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20150901" class="DynarchCalendar-day">1</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20150902" class="DynarchCalendar-day">2</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20150903" class="DynarchCalendar-day">3</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20150904" disabled="1" class="DynarchCalendar-day DynarchCalendar-day-disabled">4</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20150905" class="DynarchCalendar-day DynarchCalendar-weekend">5</div></td><td class=" DynarchCalendar-last-col"><div dyc-type="date" unselectable="on" dyc-date="20150906" class="DynarchCalendar-day DynarchCalendar-weekend">6</div></td></tr><tr class="DynarchCalendar-week"><td class=" DynarchCalendar-first-col"><div dyc-type="date" unselectable="on" dyc-date="20150907" class="DynarchCalendar-day">7</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20150908" class="DynarchCalendar-day">8</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20150909" class="DynarchCalendar-day">9</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20150910" class="DynarchCalendar-day">10</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20150911" disabled="1" class="DynarchCalendar-day DynarchCalendar-day-disabled">11</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20150912" class="DynarchCalendar-day DynarchCalendar-weekend">12</div></td><td class=" DynarchCalendar-last-col"><div dyc-type="date" unselectable="on" dyc-date="20150913" class="DynarchCalendar-day DynarchCalendar-weekend">13</div></td></tr><tr class="DynarchCalendar-week"><td class=" DynarchCalendar-first-col"><div dyc-type="date" unselectable="on" dyc-date="20150914" class="DynarchCalendar-day">14</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20150915" class="DynarchCalendar-day">15</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20150916" class="DynarchCalendar-day">16</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20150917" class="DynarchCalendar-day">17</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20150918" disabled="1" class="DynarchCalendar-day DynarchCalendar-day-disabled">18</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20150919" class="DynarchCalendar-day DynarchCalendar-weekend">19</div></td><td class=" DynarchCalendar-last-col"><div dyc-type="date" unselectable="on" dyc-date="20150920" class="DynarchCalendar-day DynarchCalendar-weekend">20</div></td></tr><tr class="DynarchCalendar-week"><td class=" DynarchCalendar-first-col"><div dyc-type="date" unselectable="on" dyc-date="20150921" class="DynarchCalendar-day">21</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20150922" class="DynarchCalendar-day">22</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20150923" class="DynarchCalendar-day">23</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20150924" class="DynarchCalendar-day">24</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20150925" disabled="1" class="DynarchCalendar-day DynarchCalendar-day-disabled">25</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20150926" class="DynarchCalendar-day DynarchCalendar-weekend">26</div></td><td class=" DynarchCalendar-last-col"><div dyc-type="date" unselectable="on" dyc-date="20150927" class="DynarchCalendar-day DynarchCalendar-weekend">27</div></td></tr><tr class="DynarchCalendar-week"><td class=" DynarchCalendar-first-col"><div dyc-type="date" unselectable="on" dyc-date="20150928" class="DynarchCalendar-day">28</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20150929" class="DynarchCalendar-day">29</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20150930" class="DynarchCalendar-day">30</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20151001" class="DynarchCalendar-day DynarchCalendar-day-othermonth">1</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20151002" disabled="1" class="DynarchCalendar-day DynarchCalendar-day-othermonth DynarchCalendar-day-disabled">2</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20151003" class="DynarchCalendar-day DynarchCalendar-weekend DynarchCalendar-day-othermonth">3</div></td><td class=" DynarchCalendar-last-col"><div dyc-type="date" unselectable="on" dyc-date="20151004" class="DynarchCalendar-day DynarchCalendar-weekend DynarchCalendar-day-othermonth">4</div></td></tr><tr class="DynarchCalendar-week DynarchCalendar-last-row"><td class=" DynarchCalendar-first-col"><div dyc-type="date" unselectable="on" dyc-date="20151005" class="DynarchCalendar-day DynarchCalendar-day-othermonth">5</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20151006" class="DynarchCalendar-day DynarchCalendar-day-othermonth">6</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20151007" class="DynarchCalendar-day DynarchCalendar-day-othermonth">7</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20151008" class="DynarchCalendar-day DynarchCalendar-day-othermonth">8</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20151009" disabled="1" class="DynarchCalendar-day DynarchCalendar-day-othermonth DynarchCalendar-day-disabled">9</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20151010" class="DynarchCalendar-day DynarchCalendar-weekend DynarchCalendar-day-othermonth">10</div></td><td class=" DynarchCalendar-last-col"><div dyc-type="date" unselectable="on" dyc-date="20151011" class="DynarchCalendar-day DynarchCalendar-weekend DynarchCalendar-day-othermonth">11</div></td></tr></tbody></table></div><div class="DynarchCalendar-bottomBar"><table align="center" cellspacing="0" cellpadding="0" style="width:100%"><tbody><tr><td><table align="center" cellspacing="0" cellpadding="0"><tbody><tr><td><div dyc-btn="today" dyc-cls="hover-bottomBar-today,pressed-bottomBar-today" dyc-type="bottomBar-today" class="DynarchCalendar-bottomBar-today">Today</div></td></tr></tbody></table></td></tr></tbody></table></div><div class="DynarchCalendar-menu" style="display: none"><table height="100%" align="center" cellspacing="0" cellpadding="0"><tbody><tr><td><table style="margin-top: 1.5em" align="center" cellspacing="0" cellpadding="0"><tbody><tr><td colspan="3"><input dyc-btn="year" class="DynarchCalendar-menu-year" size="6" value="2015"></td></tr><tr><td><div dyc-type="menubtn" dyc-cls="hover-navBtn,pressed-navBtn" dyc-btn="today">Go Today</div></td></tr></tbody></table><p class="DynarchCalendar-menu-sep">&nbsp;</p><table class="DynarchCalendar-menu-mtable" align="center" cellspacing="0" cellpadding="0"><tbody><tr><td><div dyc-type="menubtn" dyc-cls="hover-navBtn,pressed-navBtn" dyc-btn="m0" class="DynarchCalendar-menu-month">Jan</div></td><td><div dyc-type="menubtn" dyc-cls="hover-navBtn,pressed-navBtn" dyc-btn="m1" class="DynarchCalendar-menu-month">Feb</div></td><td><div dyc-type="menubtn" dyc-cls="hover-navBtn,pressed-navBtn" dyc-btn="m2" class="DynarchCalendar-menu-month">Mar</div></td></tr><tr><td><div dyc-type="menubtn" dyc-cls="hover-navBtn,pressed-navBtn" dyc-btn="m3" class="DynarchCalendar-menu-month">Apr</div></td><td><div dyc-type="menubtn" dyc-cls="hover-navBtn,pressed-navBtn" dyc-btn="m4" class="DynarchCalendar-menu-month">May</div></td><td><div dyc-type="menubtn" dyc-cls="hover-navBtn,pressed-navBtn" dyc-btn="m5" class="DynarchCalendar-menu-month">Jun</div></td></tr><tr><td><div dyc-type="menubtn" dyc-cls="hover-navBtn,pressed-navBtn" dyc-btn="m6" class="DynarchCalendar-menu-month">Jul</div></td><td><div dyc-type="menubtn" dyc-cls="hover-navBtn,pressed-navBtn" dyc-btn="m7" class="DynarchCalendar-menu-month">Aug</div></td><td><div dyc-type="menubtn" dyc-cls="hover-navBtn,pressed-navBtn" dyc-btn="m8" class="DynarchCalendar-menu-month">Sep</div></td></tr><tr><td><div dyc-type="menubtn" dyc-cls="hover-navBtn,pressed-navBtn" dyc-btn="m9" class="DynarchCalendar-menu-month">Oct</div></td><td><div dyc-type="menubtn" dyc-cls="hover-navBtn,pressed-navBtn" dyc-btn="m10" class="DynarchCalendar-menu-month">Nov</div></td><td><div dyc-type="menubtn" dyc-cls="hover-navBtn,pressed-navBtn" dyc-btn="m11" class="DynarchCalendar-menu-month">Dec</div></td></tr></tbody></table></td></tr></tbody></table></div><div class="DynarchCalendar-tooltip"></div></div></td></tr></tbody></table></div>
+<script>
+Calendar.setup({
+    cont: "sample2",
+    disabled: function(date) {
+        if (date.getDay() == 5) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+});
+</script><p></p>
+
+
+<p>Here is the code for the sample above:</p>
+
+<pre class="src">Calendar.setup({
+    <span style="color: #b8860b;">cont</span>: <span style="color: #bc8f8f;">"sample2"</span>,
+    <span style="color: #0000ff;">disabled</span>: <span style="color: #a020f0;">function</span>(<span style="color: #2e8b57;">date</span>) {
+        <span style="color: #a020f0;">if</span> (date.getDay() == 5) {
+            <span style="color: #a020f0;">return</span> <span style="color: #5f9ea0;">true</span>;
+        } <span style="color: #a020f0;">else</span> {
+            <span style="color: #a020f0;">return</span> <span style="color: #5f9ea0;">false</span>;
+        }
+    }
+});
+</pre>
+
+<p>You can write anything you want in the <code>disabled()</code> handler—just try to make
+it fast enough, as it will be called many times within milliseconds when the
+calendar is displayed.  Here's one more example, suppose you have in your
+database a list of dates that should be disabled, just convert them to
+numeric value and build up a hash table, then your <code>disabled()</code> handler can
+very conveniently return <strong>true</strong> for them:
+
+
+</p><div id="sample3"><table class="DynarchCalendar-topCont" align="center" cellspacing="0" cellpadding="0"><tbody><tr><td><div class="DynarchCalendar"><button class="DynarchCalendar-focusLink"></button><div class="DynarchCalendar-topBar"><div dyc-type="nav" dyc-btn="-Y" dyc-cls="hover-navBtn,pressed-navBtn" class="DynarchCalendar-prevYear DynarchCalendar-navBtn"><div></div></div><div dyc-type="nav" dyc-btn="+Y" dyc-cls="hover-navBtn,pressed-navBtn" class="DynarchCalendar-nextYear DynarchCalendar-navBtn"><div></div></div><div dyc-type="nav" dyc-btn="-M" dyc-cls="hover-navBtn,pressed-navBtn" class="DynarchCalendar-prevMonth DynarchCalendar-navBtn"><div></div></div><div dyc-type="nav" dyc-btn="+M" dyc-cls="hover-navBtn,pressed-navBtn" class="DynarchCalendar-nextMonth DynarchCalendar-navBtn"><div></div></div><table class="DynarchCalendar-titleCont" align="center" cellspacing="0" cellpadding="0"><tbody><tr><td><div dyc-type="title" dyc-btn="menu" dyc-cls="hover-title,pressed-title" class="DynarchCalendar-title"><div unselectable="on">Mar 2015</div></div></td></tr></tbody></table><div class="DynarchCalendar-dayNames"><table align="center" cellspacing="0" cellpadding="0"><tbody><tr><td><div>Mo</div></td><td><div>Tu</div></td><td><div>We</div></td><td><div>Th</div></td><td><div>Fr</div></td><td><div class="DynarchCalendar-weekend">Sa</div></td><td><div class="DynarchCalendar-weekend">Su</div></td></tr></tbody></table></div></div><div class="DynarchCalendar-body"><table class="DynarchCalendar-bodyTable" align="center" cellspacing="0" cellpadding="0"><tbody><tr class="DynarchCalendar-week DynarchCalendar-first-row"><td class=" DynarchCalendar-first-col"><div dyc-type="date" unselectable="on" dyc-date="20150223" class="DynarchCalendar-day DynarchCalendar-day-othermonth">23</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20150224" class="DynarchCalendar-day DynarchCalendar-day-othermonth">24</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20150225" class="DynarchCalendar-day DynarchCalendar-day-othermonth">25</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20150226" class="DynarchCalendar-day DynarchCalendar-day-othermonth">26</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20150227" class="DynarchCalendar-day DynarchCalendar-day-othermonth">27</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20150228" class="DynarchCalendar-day DynarchCalendar-weekend DynarchCalendar-day-othermonth">28</div></td><td class=" DynarchCalendar-last-col"><div dyc-type="date" unselectable="on" dyc-date="20150301" class="DynarchCalendar-day DynarchCalendar-weekend">1</div></td></tr><tr class="DynarchCalendar-week"><td class=" DynarchCalendar-first-col"><div dyc-type="date" unselectable="on" dyc-date="20150302" class="DynarchCalendar-day">2</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20150303" class="DynarchCalendar-day">3</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20150304" class="DynarchCalendar-day">4</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20150305" class="DynarchCalendar-day">5</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20150306" class="DynarchCalendar-day">6</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20150307" class="DynarchCalendar-day DynarchCalendar-weekend">7</div></td><td class=" DynarchCalendar-last-col"><div dyc-type="date" unselectable="on" dyc-date="20150308" class="DynarchCalendar-day DynarchCalendar-weekend">8</div></td></tr><tr class="DynarchCalendar-week"><td class=" DynarchCalendar-first-col"><div dyc-type="date" unselectable="on" dyc-date="20150309" class="DynarchCalendar-day">9</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20150310" class="DynarchCalendar-day">10</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20150311" class="DynarchCalendar-day DynarchCalendar-day-today">11</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20150312" class="DynarchCalendar-day">12</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20150313" class="DynarchCalendar-day">13</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20150314" class="DynarchCalendar-day DynarchCalendar-weekend">14</div></td><td class=" DynarchCalendar-last-col"><div dyc-type="date" unselectable="on" dyc-date="20150315" class="DynarchCalendar-day DynarchCalendar-weekend">15</div></td></tr><tr class="DynarchCalendar-week"><td class=" DynarchCalendar-first-col"><div dyc-type="date" unselectable="on" dyc-date="20150316" class="DynarchCalendar-day">16</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20150317" class="DynarchCalendar-day">17</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20150318" class="DynarchCalendar-day">18</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20150319" class="DynarchCalendar-day">19</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20150320" class="DynarchCalendar-day">20</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20150321" class="DynarchCalendar-day DynarchCalendar-weekend">21</div></td><td class=" DynarchCalendar-last-col"><div dyc-type="date" unselectable="on" dyc-date="20150322" class="DynarchCalendar-day DynarchCalendar-weekend">22</div></td></tr><tr class="DynarchCalendar-week"><td class=" DynarchCalendar-first-col"><div dyc-type="date" unselectable="on" dyc-date="20150323" class="DynarchCalendar-day">23</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20150324" class="DynarchCalendar-day">24</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20150325" class="DynarchCalendar-day">25</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20150326" class="DynarchCalendar-day">26</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20150327" class="DynarchCalendar-day">27</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20150328" class="DynarchCalendar-day DynarchCalendar-weekend">28</div></td><td class=" DynarchCalendar-last-col"><div dyc-type="date" unselectable="on" dyc-date="20150329" class="DynarchCalendar-day DynarchCalendar-weekend">29</div></td></tr><tr class="DynarchCalendar-week DynarchCalendar-last-row"><td class=" DynarchCalendar-first-col"><div dyc-type="date" unselectable="on" dyc-date="20150330" class="DynarchCalendar-day">30</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20150331" class="DynarchCalendar-day">31</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20150401" class="DynarchCalendar-day DynarchCalendar-day-othermonth">1</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20150402" class="DynarchCalendar-day DynarchCalendar-day-othermonth">2</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20150403" class="DynarchCalendar-day DynarchCalendar-day-othermonth">3</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20150404" class="DynarchCalendar-day DynarchCalendar-weekend DynarchCalendar-day-othermonth">4</div></td><td class=" DynarchCalendar-last-col"><div dyc-type="date" unselectable="on" dyc-date="20150405" class="DynarchCalendar-day DynarchCalendar-weekend DynarchCalendar-day-othermonth">5</div></td></tr></tbody></table></div><div class="DynarchCalendar-bottomBar"><table align="center" cellspacing="0" cellpadding="0" style="width:100%"><tbody><tr><td><table align="center" cellspacing="0" cellpadding="0"><tbody><tr><td><div dyc-btn="today" dyc-cls="hover-bottomBar-today,pressed-bottomBar-today" dyc-type="bottomBar-today" class="DynarchCalendar-bottomBar-today">Today</div></td></tr></tbody></table></td></tr></tbody></table></div><div class="DynarchCalendar-menu" style="display: none"><table height="100%" align="center" cellspacing="0" cellpadding="0"><tbody><tr><td><table style="margin-top: 1.5em" align="center" cellspacing="0" cellpadding="0"><tbody><tr><td colspan="3"><input dyc-btn="year" class="DynarchCalendar-menu-year" size="6" value="2015"></td></tr><tr><td><div dyc-type="menubtn" dyc-cls="hover-navBtn,pressed-navBtn" dyc-btn="today">Go Today</div></td></tr></tbody></table><p class="DynarchCalendar-menu-sep">&nbsp;</p><table class="DynarchCalendar-menu-mtable" align="center" cellspacing="0" cellpadding="0"><tbody><tr><td><div dyc-type="menubtn" dyc-cls="hover-navBtn,pressed-navBtn" dyc-btn="m0" class="DynarchCalendar-menu-month">Jan</div></td><td><div dyc-type="menubtn" dyc-cls="hover-navBtn,pressed-navBtn" dyc-btn="m1" class="DynarchCalendar-menu-month">Feb</div></td><td><div dyc-type="menubtn" dyc-cls="hover-navBtn,pressed-navBtn" dyc-btn="m2" class="DynarchCalendar-menu-month">Mar</div></td></tr><tr><td><div dyc-type="menubtn" dyc-cls="hover-navBtn,pressed-navBtn" dyc-btn="m3" class="DynarchCalendar-menu-month">Apr</div></td><td><div dyc-type="menubtn" dyc-cls="hover-navBtn,pressed-navBtn" dyc-btn="m4" class="DynarchCalendar-menu-month">May</div></td><td><div dyc-type="menubtn" dyc-cls="hover-navBtn,pressed-navBtn" dyc-btn="m5" class="DynarchCalendar-menu-month">Jun</div></td></tr><tr><td><div dyc-type="menubtn" dyc-cls="hover-navBtn,pressed-navBtn" dyc-btn="m6" class="DynarchCalendar-menu-month">Jul</div></td><td><div dyc-type="menubtn" dyc-cls="hover-navBtn,pressed-navBtn" dyc-btn="m7" class="DynarchCalendar-menu-month">Aug</div></td><td><div dyc-type="menubtn" dyc-cls="hover-navBtn,pressed-navBtn" dyc-btn="m8" class="DynarchCalendar-menu-month">Sep</div></td></tr><tr><td><div dyc-type="menubtn" dyc-cls="hover-navBtn,pressed-navBtn" dyc-btn="m9" class="DynarchCalendar-menu-month">Oct</div></td><td><div dyc-type="menubtn" dyc-cls="hover-navBtn,pressed-navBtn" dyc-btn="m10" class="DynarchCalendar-menu-month">Nov</div></td><td><div dyc-type="menubtn" dyc-cls="hover-navBtn,pressed-navBtn" dyc-btn="m11" class="DynarchCalendar-menu-month">Dec</div></td></tr></tbody></table></td></tr></tbody></table></div><div class="DynarchCalendar-tooltip"></div></div></td></tr></tbody></table></div>
+<script>
+var DISABLED_DATES = {
+    20090502: true,
+    20090505: true,
+    20090510: true,
+    20090511: true
+};
+Calendar.setup({
+    cont     : "sample3",
+    disabled : function(date) {
+        date = Calendar.dateToInt(date);
+        return date in DISABLED_DATES;
+    }
+});
+</script><p></p>
+
+
+<pre class="src"><span style="color: #a020f0;">var</span> <span style="color: #b8860b;">DISABLED_DATES</span> = {
+    20090502: <span style="color: #5f9ea0;">true</span>,
+    20090505: <span style="color: #5f9ea0;">true</span>,
+    20090510: <span style="color: #5f9ea0;">true</span>,
+    20090511: <span style="color: #5f9ea0;">true</span>
+};
+Calendar.setup({
+    <span style="color: #b8860b;">cont</span>     : <span style="color: #bc8f8f;">"sample3"</span>,
+    <span style="color: #0000ff;">disabled</span> : <span style="color: #a020f0;">function</span>(<span style="color: #2e8b57;">date</span>) {
+        date = Calendar.dateToInt(date);
+        <span style="color: #a020f0;">return</span> date <span style="color: #a020f0;">in</span> DISABLED_DATES;
+    }
+});
+</pre>
+
+<h3><a name="sec9" id="sec9"></a>
+<a name="dateInfo" id="dateInfo"></a>Highlight special dates, date tooltips</h3>
+
+<p class="first">The calendar has a feature that allows you to highlight certain dates, or
+display tooltips when certain dates are hovered.  To use this you need to
+provide a function (using the <code>dateInfo</code> constructor argument) that receives a
+JavaScript Date object.  It can return <code>null</code> (or <code>undefined</code>) if the date isn't
+special, or a hash containing either or both of the following properties:</p>
+
+<ul>
+<li><code>klass</code> — CSS class name to append to that day</li>
+<li><code>tooltip</code> — a tooltip to display when that date is hovered</li>
+</ul>
+
+<p>Here is an example that highlights 7 and 8 May 2009 in red, week 18..24 May 2009
+in green and my birthday with a white background every year.
+
+
+</p><div id="sample4"><table class="DynarchCalendar-topCont" align="center" cellspacing="0" cellpadding="0"><tbody><tr><td><div class="DynarchCalendar"><button class="DynarchCalendar-focusLink"></button><div class="DynarchCalendar-topBar"><div dyc-type="nav" dyc-btn="-Y" dyc-cls="hover-navBtn,pressed-navBtn" class="DynarchCalendar-prevYear DynarchCalendar-navBtn"><div></div></div><div dyc-type="nav" dyc-btn="+Y" dyc-cls="hover-navBtn,pressed-navBtn" class="DynarchCalendar-nextYear DynarchCalendar-navBtn"><div></div></div><div dyc-type="nav" dyc-btn="-M" dyc-cls="hover-navBtn,pressed-navBtn" class="DynarchCalendar-prevMonth DynarchCalendar-navBtn"><div></div></div><div dyc-type="nav" dyc-btn="+M" dyc-cls="hover-navBtn,pressed-navBtn" class="DynarchCalendar-nextMonth DynarchCalendar-navBtn"><div></div></div><table class="DynarchCalendar-titleCont" align="center" cellspacing="0" cellpadding="0"><tbody><tr><td><div dyc-type="title" dyc-btn="menu" dyc-cls="hover-title,pressed-title" class="DynarchCalendar-title"><div unselectable="on">May 2009</div></div></td></tr></tbody></table><div class="DynarchCalendar-dayNames"><table align="center" cellspacing="0" cellpadding="0"><tbody><tr><td><div>Mo</div></td><td><div>Tu</div></td><td><div>We</div></td><td><div>Th</div></td><td><div>Fr</div></td><td><div class="DynarchCalendar-weekend">Sa</div></td><td><div class="DynarchCalendar-weekend">Su</div></td></tr></tbody></table></div></div><div class="DynarchCalendar-body"><table class="DynarchCalendar-bodyTable" align="center" cellspacing="0" cellpadding="0"><tbody><tr class="DynarchCalendar-week DynarchCalendar-first-row"><td class=" DynarchCalendar-first-col"><div dyc-type="date" unselectable="on" dyc-date="20090427" class="DynarchCalendar-day DynarchCalendar-day-othermonth">27</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20090428" class="DynarchCalendar-day DynarchCalendar-day-othermonth">28</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20090429" class="DynarchCalendar-day DynarchCalendar-day-othermonth">29</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20090430" class="DynarchCalendar-day DynarchCalendar-day-othermonth">30</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20090501" class="DynarchCalendar-day">1</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20090502" class="DynarchCalendar-day DynarchCalendar-weekend">2</div></td><td class=" DynarchCalendar-last-col"><div dyc-type="date" unselectable="on" dyc-date="20090503" class="DynarchCalendar-day DynarchCalendar-weekend">3</div></td></tr><tr class="DynarchCalendar-week"><td class=" DynarchCalendar-first-col"><div dyc-type="date" unselectable="on" dyc-date="20090504" class="DynarchCalendar-day">4</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20090505" class="DynarchCalendar-day">5</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20090506" class="DynarchCalendar-day">6</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20090507" class="DynarchCalendar-day highlight">7</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20090508" class="DynarchCalendar-day highlight">8</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20090509" class="DynarchCalendar-day DynarchCalendar-weekend">9</div></td><td class=" DynarchCalendar-last-col"><div dyc-type="date" unselectable="on" dyc-date="20090510" class="DynarchCalendar-day DynarchCalendar-weekend">10</div></td></tr><tr class="DynarchCalendar-week"><td class=" DynarchCalendar-first-col"><div dyc-type="date" unselectable="on" dyc-date="20090511" class="DynarchCalendar-day">11</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20090512" class="DynarchCalendar-day">12</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20090513" class="DynarchCalendar-day">13</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20090514" class="DynarchCalendar-day">14</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20090515" class="DynarchCalendar-day">15</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20090516" class="DynarchCalendar-day DynarchCalendar-weekend">16</div></td><td class=" DynarchCalendar-last-col"><div dyc-type="date" unselectable="on" dyc-date="20090517" class="DynarchCalendar-day DynarchCalendar-weekend">17</div></td></tr><tr class="DynarchCalendar-week"><td class=" DynarchCalendar-first-col"><div dyc-type="date" unselectable="on" dyc-date="20090518" class="DynarchCalendar-day highlight2">18</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20090519" class="DynarchCalendar-day highlight2">19</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20090520" class="DynarchCalendar-day highlight2">20</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20090521" class="DynarchCalendar-day highlight2">21</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20090522" class="DynarchCalendar-day highlight2">22</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20090523" class="DynarchCalendar-day DynarchCalendar-weekend highlight2">23</div></td><td class=" DynarchCalendar-last-col"><div dyc-type="date" unselectable="on" dyc-date="20090524" class="DynarchCalendar-day DynarchCalendar-weekend highlight2">24</div></td></tr><tr class="DynarchCalendar-week"><td class=" DynarchCalendar-first-col"><div dyc-type="date" unselectable="on" dyc-date="20090525" class="DynarchCalendar-day">25</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20090526" class="DynarchCalendar-day">26</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20090527" class="DynarchCalendar-day">27</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20090528" class="DynarchCalendar-day">28</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20090529" class="DynarchCalendar-day">29</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20090530" class="DynarchCalendar-day DynarchCalendar-weekend">30</div></td><td class=" DynarchCalendar-last-col"><div dyc-type="date" unselectable="on" dyc-date="20090531" class="DynarchCalendar-day DynarchCalendar-weekend">31</div></td></tr><tr class="DynarchCalendar-week DynarchCalendar-last-row"><td class=" DynarchCalendar-first-col"><div dyc-type="date" unselectable="on" dyc-date="20090601" class="DynarchCalendar-day DynarchCalendar-day-othermonth">1</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20090602" class="DynarchCalendar-day DynarchCalendar-day-othermonth">2</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20090603" class="DynarchCalendar-day DynarchCalendar-day-othermonth">3</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20090604" class="DynarchCalendar-day DynarchCalendar-day-othermonth">4</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20090605" class="DynarchCalendar-day DynarchCalendar-day-othermonth">5</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20090606" class="DynarchCalendar-day DynarchCalendar-weekend DynarchCalendar-day-othermonth">6</div></td><td class=" DynarchCalendar-last-col"><div dyc-type="date" unselectable="on" dyc-date="20090607" class="DynarchCalendar-day DynarchCalendar-weekend DynarchCalendar-day-othermonth">7</div></td></tr></tbody></table></div><div class="DynarchCalendar-bottomBar"><table align="center" cellspacing="0" cellpadding="0" style="width:100%"><tbody><tr><td><table align="center" cellspacing="0" cellpadding="0"><tbody><tr><td><div dyc-btn="today" dyc-cls="hover-bottomBar-today,pressed-bottomBar-today" dyc-type="bottomBar-today" class="DynarchCalendar-bottomBar-today">Today</div></td></tr></tbody></table></td></tr></tbody></table></div><div class="DynarchCalendar-menu" style="opacity: 0.85; display: none;"><table height="100%" align="center" cellspacing="0" cellpadding="0"><tbody><tr><td><table style="margin-top: 1.5em" align="center" cellspacing="0" cellpadding="0"><tbody><tr><td colspan="3"><input dyc-btn="year" class="DynarchCalendar-menu-year" size="6" value="2009"></td></tr><tr><td><div dyc-type="menubtn" dyc-cls="hover-navBtn,pressed-navBtn" dyc-btn="today">Go Today</div></td></tr></tbody></table><p class="DynarchCalendar-menu-sep">&nbsp;</p><table class="DynarchCalendar-menu-mtable" align="center" cellspacing="0" cellpadding="0"><tbody><tr><td><div dyc-type="menubtn" dyc-cls="hover-navBtn,pressed-navBtn" dyc-btn="m0" class="DynarchCalendar-menu-month">Jan</div></td><td><div dyc-type="menubtn" dyc-cls="hover-navBtn,pressed-navBtn" dyc-btn="m1" class="DynarchCalendar-menu-month">Feb</div></td><td><div dyc-type="menubtn" dyc-cls="hover-navBtn,pressed-navBtn" dyc-btn="m2" class="DynarchCalendar-menu-month">Mar</div></td></tr><tr><td><div dyc-type="menubtn" dyc-cls="hover-navBtn,pressed-navBtn" dyc-btn="m3" class="DynarchCalendar-menu-month">Apr</div></td><td><div dyc-type="menubtn" dyc-cls="hover-navBtn,pressed-navBtn" dyc-btn="m4" class="DynarchCalendar-menu-month">May</div></td><td><div dyc-type="menubtn" dyc-cls="hover-navBtn,pressed-navBtn" dyc-btn="m5" class="DynarchCalendar-menu-month">Jun</div></td></tr><tr><td><div dyc-type="menubtn" dyc-cls="hover-navBtn,pressed-navBtn" dyc-btn="m6" class="DynarchCalendar-menu-month">Jul</div></td><td><div dyc-type="menubtn" dyc-cls="hover-navBtn,pressed-navBtn" dyc-btn="m7" class="DynarchCalendar-menu-month">Aug</div></td><td><div dyc-type="menubtn" dyc-cls="hover-navBtn,pressed-navBtn" dyc-btn="m8" class="DynarchCalendar-menu-month">Sep</div></td></tr><tr><td><div dyc-type="menubtn" dyc-cls="hover-navBtn,pressed-navBtn" dyc-btn="m9" class="DynarchCalendar-menu-month">Oct</div></td><td><div dyc-type="menubtn" dyc-cls="hover-navBtn,pressed-navBtn" dyc-btn="m10" class="DynarchCalendar-menu-month">Nov</div></td><td><div dyc-type="menubtn" dyc-cls="hover-navBtn,pressed-navBtn" dyc-btn="m11" class="DynarchCalendar-menu-month">Dec</div></td></tr></tbody></table></td></tr></tbody></table></div><div class="DynarchCalendar-tooltip"></div></div></td></tr></tbody></table></div>
+<script>
+var DATE_INFO = {
+  20090507: { klass: "highlight", tooltip: "That was yesterday" },
+  20090508: { klass: "highlight", tooltip: "And this is TODAY" }
+};
+
+function getDateInfo(date, wantsClassName) {
+  var as_number = Calendar.dateToInt(date);
+  if (String(as_number).indexOf("0308") == 4) {
+    // my birthday :-p
+    return { klass: "birthday", tooltip: "Happy birthday dear me!" };
+  }
+  if (as_number >= 20090518 && as_number <= 20090524)
+    return {
+      klass   : "highlight2",
+      tooltip : "<div style='text-align: center'>%Y/%m/%d (%A)<br />In the green week</div>"
+    };
+  return DATE_INFO[as_number];
+};
+
+var cal = Calendar.setup({
+  cont     : "sample4",
+  fdow     : 1,
+  date     : 20090501,
+  dateInfo : getDateInfo // pass our getDateInfo function
+});
+</script><p></p>
+
+
+<p>We got that with the code below:</p>
+
+<pre class="src"><span style="color: #a020f0;">var</span> <span style="color: #b8860b;">DATE_INFO</span> = {
+  20090507: { <span style="color: #b8860b;">klass</span>: <span style="color: #bc8f8f;">"highlight"</span>, <span style="color: #b8860b;">tooltip</span>: <span style="color: #bc8f8f;">"That was yesterday"</span> },
+  20090508: { <span style="color: #b8860b;">klass</span>: <span style="color: #bc8f8f;">"highlight"</span>, <span style="color: #b8860b;">tooltip</span>: <span style="color: #bc8f8f;">"And this is TODAY"</span> }
+};
+
+<span style="color: #a020f0;">function</span> <span style="color: #0000ff;">getDateInfo</span>(<span style="color: #2e8b57;">date</span>, <span style="color: #2e8b57;">wantsClassName</span>) {
+  <span style="color: #a020f0;">var</span> <span style="color: #b8860b;">as_number</span> = Calendar.dateToInt(date);
+  <span style="color: #a020f0;">if</span> (String(as_number).indexOf(<span style="color: #bc8f8f;">"0308"</span>) == 4) {
+    <span style="color: #b22222;">// my birthday :-p
+</span>    <span style="color: #a020f0;">return</span> { <span style="color: #b8860b;">klass</span>: <span style="color: #bc8f8f;">"birthday"</span>, <span style="color: #b8860b;">tooltip</span>: <span style="color: #bc8f8f;">"Happy birthday dear me!"</span> };
+  }
+  <span style="color: #a020f0;">if</span> (as_number &gt;= 20090518 &amp;&amp; as_number &lt;= 20090524)
+    <span style="color: #a020f0;">return</span> {
+      <span style="color: #b8860b;">klass</span>   : <span style="color: #bc8f8f;">"highlight2"</span>,
+      <span style="color: #b8860b;">tooltip</span> : <span style="color: #bc8f8f;">"&lt;div style='text-align: center'&gt;%Y/%m/%d (%A)"</span> +
+                <span style="color: #bc8f8f;">"&lt;br /&gt;In the green week&lt;/div&gt;"</span> <span style="color: #b22222;">// formatted by printDate
+</span>    };
+  <span style="color: #a020f0;">return</span> DATE_INFO[as_number];
+};
+
+<span style="color: #a020f0;">var</span> <span style="color: #b8860b;">cal</span> = Calendar.setup({
+  <span style="color: #b8860b;">cont</span>     : <span style="color: #bc8f8f;">"sample4"</span>,
+  <span style="color: #b8860b;">fdow</span>     : 1,
+  <span style="color: #b8860b;">date</span>     : 20090501,
+  <span style="color: #b8860b;">dateInfo</span> : getDateInfo <span style="color: #b22222;">// pass our getDateInfo function
+</span>});
+</pre>
+
+<p>It's up to you how you write this function.  In the sample above we showed how
+we can use an external variable (<code>DATE_INFO</code>) that holds the klass and tooltips,
+as well as converting the date to a number and easily check that it's within a
+certain interval (to highlight “the green week”).  For my birthday I used a
+hack—convert the date to a string and check that it ends in "0308" (so it will
+match March 8, any year).  The following CSS is included in this page:</p>
+
+<pre class="src"><span style="color: #b8860b;">.highlight</span> { <span style="color: #a020f0;">color:</span> <span style="color: #5f9ea0;">#f00</span> <span style="color: #a020f0;">!important</span>; <span style="color: #a020f0;">font-weight:</span> bold }
+<span style="color: #b8860b;">.highlight2</span> { <span style="color: #a020f0;">color:</span> <span style="color: #5f9ea0;">#090</span> <span style="color: #a020f0;">!important</span>; <span style="color: #a020f0;">font-weight:</span> bold }
+<span style="color: #b8860b;">.birthday</span> { <span style="color: #a020f0;">background:</span> <span style="color: #5f9ea0;">#fff</span>; <span style="color: #a020f0;">font-weight:</span> bold }
+<span style="color: #b8860b;">.birthday.DynarchCalendar-day-selected</span> { <span style="color: #a020f0;">background:</span> <span style="color: #5f9ea0;">#89f</span>; <span style="color: #a020f0;">font-weight:</span> bold }
+</pre>
+
+
+
+<h2><a name="sec10" id="sec10"></a>
+Calendar object reference</h2>
+
+<p class="first">Assuming you went through the above and read the <a href="http://www.dynarch.com/jscal/selection.html#basics">basics of Selection object</a> you
+should know enough to use this calendar to full potential.  For completeness,
+following where is detalied API documentation.</p>
+
+<h3><a name="sec11" id="sec11"></a>
+moveTo(date, animated)</h3>
+
+<p class="first">Moves the calendar to the given date's year/month (this doesn't change the
+selection!).  If you pass <strong>true</strong> for <strong>animated</strong> (default is <strong>false</strong>) and if animation
+wasn't disabled through the constructor, then it will animate the switch.</p>
+
+
+<h3><a name="sec12" id="sec12"></a>
+isDisabled(date)</h3>
+
+<p class="first">Returns true if the given <strong>date</strong> (a JavaScript Date object) can be selected.</p>
+
+
+<h3><a name="sec13" id="sec13"></a>
+toggleMenu()</h3>
+
+<p class="first">Shows or hides the menu.</p>
+
+
+<h3><a name="sec14" id="sec14"></a>
+refresh(noBody)</h3>
+
+<p class="first">Refreshes the calendar body, title and year input field.  If <strong>noBody</strong> is <strong>true</strong> then
+it will not refresh the body.  This is used internally, see the next one if you
+need to redraw the calendar.</p>
+
+
+<h3><a name="sec15" id="sec15"></a>
+redraw()</h3>
+
+<p class="first">Redisplays the whole calendar.  You need to call this if you set certain
+arguments at run time (i.e. <strong>min</strong>, <strong>max</strong>, <strong>disabled</strong>, <strong>dateInfo</strong>, etc.).  You don't need
+to call it if you modify <a href="http://www.dynarch.com/jscal/selection.html">the selection</a> as it is refreshed automatically.</p>
+
+
+<h3><a name="sec16" id="sec16"></a>
+setLanguage(code)</h3>
+
+<p class="first">Sets a new language for the calendar.  Pass the language code.  More info in
+<a href="http://www.dynarch.com/jscal/internationalization.html">internationalization</a>.</p>
+
+
+<h3><a name="sec17" id="sec17"></a>
+focus()</h3>
+
+<p class="first">Moves focus to the calendar.  After you call this, the calendar handles
+keyboard.</p>
+
+
+<h3><a name="sec18" id="sec18"></a>
+blur()</h3>
+
+<p class="first">Removes focus from the calendar.</p>
+
+
+<h3><a name="sec19" id="sec19"></a>
+showAt(x, y, animated)</h3>
+
+<p><em>Only for popup calendars</em>.  Shows the calendar at the given (x, y) position,
+optionally animated if <strong>animated</strong> is <strong>true</strong> and animation was not disabled through
+constructor.</p>
+
+
+<h3><a name="sec20" id="sec20"></a>
+hide()</h3>
+
+<p><em>Only for popup calendars</em>.  Hides the calendar.</p>
+
+<h3><a name="sec21" id="sec21"></a>
+<a name="method-popup" id="method-popup"></a>popup(anchor, align)</h3>
+
+<p class="first">You want to use this instead showAt() in order to display the calendar near a
+certain element.  <strong>anchor</strong> is a reference to a DOM element, or the ID of an
+element where the calendar is anchored.  <strong>align</strong> is optional (if not given, the
+one passed to constructor is used, which defaults to "<code>Bl/&nbsp;/&nbsp;/T/r</code>".</p>
+
+<p>The <strong>align</strong> decides where is the calendar displayed in relation to the given
+anchor element.  It is formed of 5 parts joined by "/", in the following order:</p>
+
+<ol>
+<li>preferred alignment if there is enough room</li>
+<li>fallback alignment if it fails on the top</li>
+<li>fallback alignment if it fails on the right</li>
+<li>fallback alignment if it fails on the bottom</li>
+<li>fallback alignment if it fails on the left</li>
+</ol>
+
+<p>Each of them can contain one or two characters.  For example, "Bl" means put it
+completely to the bottom, and at the left (this actually means right-aligned!)
+to the anchor.  <a href="http://www.dynarchlib.com/index.html#api://DlPopup.xml:type=object_method:func=popup">See the DlPopup object</a> in DynarchLIB for a comprehensive
+description of what the alignment characters mean.  For the calendar, the
+significance is pretty much the same except for centering characters ("c").  The
+calendar uses a "C" for centering horizontally, and "M" for centering
+vertically; as this ambiguity now no longer exists, you can pass these
+characters in any order.</p>
+
+<h3><a name="sec22" id="sec22"></a>
+<a name="manageFields" id="manageFields"></a>manageFields(trigger, inputField, dateFormat)</h3>
+
+<p class="first">You can use this function to setup a single (popup) calendar instance for
+multiple input fields.  See a <a href="http://www.dynarch.com/jscal/jscal/demo/multipleFields.html">simple demo</a>.  Call this against a calendar
+object and pass the ID (or a reference) to the trigger button, the input
+field and the date format as string.</p>
+
+
+<h3><a name="sec23" id="sec23"></a>
+getTime()</h3>
+
+<p class="first">For a calendar configured to display the time selector, this function
+returns the currently selected time as an integer (hours * 100 + minutes).
+For example, if 9:45 pm is selected, this method returns <code>2145</code>.  See also
+getHours() and getMinutes() below.</p>
+
+
+<h3><a name="sec24" id="sec24"></a>
+setTime(time, [ nohooks ])</h3>
+
+<p class="first">Sets the currently selected time.  The <code>time</code> argument is in the same integer
+format.  <code>nohooks</code> is optional (default <code>false</code>).  If specified <code>true</code> then this
+method will not call the <code>onTimeChange</code> hooks.  If unspecified or <code>false</code> the
+<code>onTimeChange</code> hooks will be called two arguments: a reference to the calendar
+object, and the new time as integer.</p>
+
+
+<h3><a name="sec25" id="sec25"></a>
+getHours()</h3>
+
+<p class="first">Returns the currently selected hour as an integer (0 .. 23).  Note that this
+method will return hours in 24h format regardless if the calendar is
+currently set in "12h" mode (i.e. when <code>showTime</code> == 12).</p>
+
+
+<h3><a name="sec26" id="sec26"></a>
+getMinutes()</h3>
+
+<p class="first">Returns the currently selected minute as an integer (0 .. 59).</p>
+
+
+<h3><a name="sec27" id="sec27"></a>
+setHours(h)</h3>
+
+<p class="first">Sets the hour in the time selector.  The argument must be an integer (0
+.. 23).</p>
+
+
+<h3><a name="sec28" id="sec28"></a>
+setMinutes(m)</h3>
+
+<p class="first">Sets the minutes in the time selector.  The argument must be an integer (0
+.. 59).  Note that this method does not force <code>m</code> to a multiple of <code>minuteStep</code>.</p>
+
+
+<h3><a name="sec29" id="sec29"></a>
+addEventListener(event, func)</h3>
+
+<p class="first">Adds a handler for the given event.  As of this writing, <strong>event</strong> can be "<code>onSelect</code>"
+and "<code>onChange</code>".  Note that multiple handlers can exist for an event and they
+will be called in the order they were registered.</p>
+
+<p><strong>Update:</strong> new events added in version 1.5: "<code>onTimeChange</code>", "<code>onFocus</code>" and
+"<code>onBlur</code>".</p>
+
+
+<h3><a name="sec30" id="sec30"></a>
+removeEventListener(event, func)</h3>
+
+<p class="first">Removes the given <strong>func</strong> handler from the list of registered hooks for the given
+<strong>event</strong>.</p>
+
+
+
+<h2><a name="sec31" id="sec31"></a>
+Global (static) utility functions</h2>
+
+<p class="first">The following functions can be used globally, without a reference to a <code>Calendar</code>
+object.</p>
+
+<h3><a name="sec32" id="sec32"></a>
+Calendar.dateToInt(date)</h3>
+
+<p class="first">Expects a JavaScript Date object in <strong>date</strong> and returns the numeric representation.
+For example, for May 8 2009 it will return 20090508.</p>
+
+
+<h3><a name="sec33" id="sec33"></a>
+Calendar.intToDate(numeric_value)</h3>
+
+<p class="first">Takes a “numeric date value” and returns a JavaScript Date object.  It's the
+reverse of <code>Calendar.dateToInt()</code>.</p>
+
+<h3><a name="sec34" id="sec34"></a>
+<a name="printDate" id="printDate"></a>Calendar.printDate(date, format)</h3>
+
+<p class="first">Takes a JavaScript Date object in <strong>date</strong> and a <strong>format</strong> specifier and returns a
+string converting the following:</p>
+
+<ul>
+<li><code>%a</code> — abbreviated weekday name</li>
+<li><code>%A</code> — full weekday name</li>
+<li><code>%b</code> — abbreviated month name</li>
+<li><code>%B</code> — full month name</li>
+<li><code>%C</code> — the century number</li>
+<li><code>%d</code> — the day of the month (range 01 to 31)</li>
+<li><code>%e</code> — the day of the month (range 1 to 31)</li>
+<li><code>%H</code> — hour, range 00 to 23 (24h format)</li>
+<li><code>%I</code> — hour, range 01 to 12 (12h format)</li>
+<li><code>%j</code> — day of the year (range 001 to 366)</li>
+<li><code>%k</code> — hour, range 0 to 23 (24h format)</li>
+<li><code>%l</code> — hour, range 1 to 12 (12h format)</li>
+<li><code>%m</code> — month, range 01 to 12</li>
+<li><code>%o</code> — month, range 1 to 12</li>
+<li><code>%M</code> — minute, range 00 to 59</li>
+<li><code>%n</code> — a newline character</li>
+<li><code>%p</code> — <strong>PM</strong> or <strong>AM</strong></li>
+<li><code>%P</code> — <strong>pm</strong> or <strong>am</strong></li>
+<li><code>%s</code> — UNIX time (number of seconds since 1970-01-01)</li>
+<li><code>%S</code> — seconds, range 00 to 59</li>
+<li><code>%t</code> — a tab character</li>
+<li><code>%W</code> — week number</li>
+<li><code>%u</code> — the day of the week (range 1 to 7, 1 = MON)</li>
+<li><code>%w</code> — the day of the week (range 0 to 6, 0 = SUN)</li>
+<li><code>%y</code> — year without the century (range 00 to 99)</li>
+<li><code>%Y</code> — year with the century</li>
+<li><code>%%</code> — a literal '%' character</li>
+</ul>
+
+
+<h3><a name="sec35" id="sec35"></a>
+Calendar.parseDate(dateString, monthFirst, today)</h3>
+
+<p class="first">This function tries to parse a meaningful date from <code>dateString</code> and return a
+JavaScript Date object.  In ambiguous situations (i.e. <code>3-4-2009</code>) it needs to
+know if the first digit is the month or the date, which is what <code>monthFirst</code>
+is for.  Examples:</p>
+
+<pre class="src">alert(Calendar.parseDate(<span style="color: #bc8f8f;">"3-4-2009"</span>, <span style="color: #5f9ea0;">true</span>)); <span style="color: #b22222;">// Mar 04 2009
+</span>alert(Calendar.parseDate(<span style="color: #bc8f8f;">"3-4-2009"</span>, <span style="color: #5f9ea0;">false</span>)); <span style="color: #b22222;">// Apr 03 2009
+</span></pre>
+
+<p>This function is very forgiving about the format and tries really hard to
+make up a full date.  If it cannot find the year, it will use the year in
+<code>today</code>.  Same goes for the month.  It also supports named months, rather than
+numeric (in such case there is no ambiguity so <code>monthFirst</code> is ignored).</p>
+
+
+<h3><a name="sec36" id="sec36"></a>
+Calendar.formatString(str, prop)</h3>
+
+<p class="first">A simple templating facility.  <strong>str</strong> is a string template, which can contain
+variables, like this:</p>
+
+<blockquote>
+<p class="quoted">"Hello ${first_name} ${last_name}"</p>
+</blockquote>
+
+<p>The values for the variables are given in <strong>prop</strong>.  Here's an example:</p>
+
+<pre class="src">alert(Calendar.formatString(<span style="color: #bc8f8f;">"Hello ${first_name} ${last_name}"</span>,
+                            { <span style="color: #b8860b;">first_name</span>: <span style="color: #bc8f8f;">"John"</span>,
+                              <span style="color: #b8860b;">last_name</span>: <span style="color: #bc8f8f;">"Doe"</span> }));
+<span style="color: #b22222;">// displays "Hello John Doe"
+</span></pre>
+
+
+
+</div>
+
+
+
+<table class="DynarchCalendar-topCont" align="center" cellspacing="0" cellpadding="0" style="position: absolute; left: 579.5px; top: 112.75px; z-index: 10000; display: none;"><tbody><tr><td><div class="DynarchCalendar"><button class="DynarchCalendar-focusLink"></button><div class="DynarchCalendar-topBar"><div dyc-type="nav" dyc-btn="-Y" dyc-cls="hover-navBtn,pressed-navBtn" class="DynarchCalendar-navBtn DynarchCalendar-prevYear"><div></div></div><div dyc-type="nav" dyc-btn="+Y" dyc-cls="hover-navBtn,pressed-navBtn" class="DynarchCalendar-navBtn DynarchCalendar-nextYear"><div></div></div><div dyc-type="nav" dyc-btn="-M" dyc-cls="hover-navBtn,pressed-navBtn" class="DynarchCalendar-navBtn DynarchCalendar-prevMonth"><div></div></div><div dyc-type="nav" dyc-btn="+M" dyc-cls="hover-navBtn,pressed-navBtn" class="DynarchCalendar-navBtn DynarchCalendar-nextMonth"><div></div></div><table class="DynarchCalendar-titleCont" align="center" cellspacing="0" cellpadding="0"><tbody><tr><td><div dyc-type="title" dyc-btn="menu" dyc-cls="hover-title,pressed-title" class="DynarchCalendar-title"><div unselectable="on">Jun 2015</div></div></td></tr></tbody></table><div class="DynarchCalendar-dayNames"><table align="center" cellspacing="0" cellpadding="0"><tbody><tr><td><div>Mo</div></td><td><div>Tu</div></td><td><div>We</div></td><td><div>Th</div></td><td><div>Fr</div></td><td><div class="DynarchCalendar-weekend">Sa</div></td><td><div class="DynarchCalendar-weekend">Su</div></td></tr></tbody></table></div></div><div class="DynarchCalendar-body"><table class="DynarchCalendar-bodyTable" align="center" cellspacing="0" cellpadding="0"><tbody><tr class="DynarchCalendar-week DynarchCalendar-first-row"><td class=" DynarchCalendar-first-col"><div dyc-type="date" unselectable="on" dyc-date="20150601" class="DynarchCalendar-day">1</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20150602" class="DynarchCalendar-day">2</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20150603" class="DynarchCalendar-day">3</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20150604" class="DynarchCalendar-day">4</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20150605" class="DynarchCalendar-day">5</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20150606" class="DynarchCalendar-day DynarchCalendar-weekend">6</div></td><td class=" DynarchCalendar-last-col"><div dyc-type="date" unselectable="on" dyc-date="20150607" class="DynarchCalendar-day DynarchCalendar-weekend">7</div></td></tr><tr class="DynarchCalendar-week"><td class=" DynarchCalendar-first-col"><div dyc-type="date" unselectable="on" dyc-date="20150608" class="DynarchCalendar-day">8</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20150609" class="DynarchCalendar-day">9</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20150610" class="DynarchCalendar-day">10</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20150611" class="DynarchCalendar-day">11</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20150612" class="DynarchCalendar-day">12</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20150613" class="DynarchCalendar-day DynarchCalendar-weekend">13</div></td><td class=" DynarchCalendar-last-col"><div dyc-type="date" unselectable="on" dyc-date="20150614" class="DynarchCalendar-day DynarchCalendar-weekend">14</div></td></tr><tr class="DynarchCalendar-week"><td class=" DynarchCalendar-first-col"><div dyc-type="date" unselectable="on" dyc-date="20150615" class="DynarchCalendar-day">15</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20150616" class="DynarchCalendar-day">16</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20150617" class="DynarchCalendar-day">17</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20150618" class="DynarchCalendar-day">18</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20150619" class="DynarchCalendar-day">19</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20150620" class="DynarchCalendar-day DynarchCalendar-weekend">20</div></td><td class=" DynarchCalendar-last-col"><div dyc-type="date" unselectable="on" dyc-date="20150621" class="DynarchCalendar-day DynarchCalendar-weekend">21</div></td></tr><tr class="DynarchCalendar-week"><td class=" DynarchCalendar-first-col"><div dyc-type="date" unselectable="on" dyc-date="20150622" class="DynarchCalendar-day">22</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20150623" class="DynarchCalendar-day">23</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20150624" class="DynarchCalendar-day">24</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20150625" class="DynarchCalendar-day">25</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20150626" class="DynarchCalendar-day">26</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20150627" class="DynarchCalendar-day DynarchCalendar-weekend">27</div></td><td class=" DynarchCalendar-last-col"><div dyc-type="date" unselectable="on" dyc-date="20150628" class="DynarchCalendar-day DynarchCalendar-weekend">28</div></td></tr><tr class="DynarchCalendar-week"><td class=" DynarchCalendar-first-col"><div dyc-type="date" unselectable="on" dyc-date="20150629" class="DynarchCalendar-day">29</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20150630" class="DynarchCalendar-day">30</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20150701" class="DynarchCalendar-day DynarchCalendar-day-othermonth">1</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20150702" class="DynarchCalendar-day DynarchCalendar-day-othermonth">2</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20150703" class="DynarchCalendar-day DynarchCalendar-day-othermonth">3</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20150704" class="DynarchCalendar-day DynarchCalendar-weekend DynarchCalendar-day-othermonth">4</div></td><td class=" DynarchCalendar-last-col"><div dyc-type="date" unselectable="on" dyc-date="20150705" class="DynarchCalendar-day DynarchCalendar-weekend DynarchCalendar-day-othermonth">5</div></td></tr><tr class="DynarchCalendar-week DynarchCalendar-last-row"><td class=" DynarchCalendar-first-col"><div dyc-type="date" unselectable="on" dyc-date="20150706" class="DynarchCalendar-day DynarchCalendar-day-othermonth">6</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20150707" class="DynarchCalendar-day DynarchCalendar-day-othermonth">7</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20150708" class="DynarchCalendar-day DynarchCalendar-day-othermonth">8</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20150709" class="DynarchCalendar-day DynarchCalendar-day-othermonth">9</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20150710" class="DynarchCalendar-day DynarchCalendar-day-othermonth">10</div></td><td class=""><div dyc-type="date" unselectable="on" dyc-date="20150711" class="DynarchCalendar-day DynarchCalendar-weekend DynarchCalendar-day-othermonth">11</div></td><td class=" DynarchCalendar-last-col"><div dyc-type="date" unselectable="on" dyc-date="20150712" class="DynarchCalendar-day DynarchCalendar-weekend DynarchCalendar-day-othermonth">12</div></td></tr></tbody></table></div><div class="DynarchCalendar-bottomBar"><table align="center" cellspacing="0" cellpadding="0" style="width:100%"><tbody><tr><td><table align="center" cellspacing="0" cellpadding="0"><tbody><tr><td><div dyc-btn="today" dyc-cls="hover-bottomBar-today,pressed-bottomBar-today" dyc-type="bottomBar-today" class="DynarchCalendar-bottomBar-today">Today</div></td></tr></tbody></table></td></tr></tbody></table></div><div class="DynarchCalendar-menu" style="display: none"><table height="100%" align="center" cellspacing="0" cellpadding="0"><tbody><tr><td><table style="margin-top: 1.5em" align="center" cellspacing="0" cellpadding="0"><tbody><tr><td colspan="3"><input dyc-btn="year" class="DynarchCalendar-menu-year" size="6" value="2015"></td></tr><tr><td><div dyc-type="menubtn" dyc-cls="hover-navBtn,pressed-navBtn" dyc-btn="today">Go Today</div></td></tr></tbody></table><p class="DynarchCalendar-menu-sep">&nbsp;</p><table class="DynarchCalendar-menu-mtable" align="center" cellspacing="0" cellpadding="0"><tbody><tr><td><div dyc-type="menubtn" dyc-cls="hover-navBtn,pressed-navBtn" dyc-btn="m0" class="DynarchCalendar-menu-month">Jan</div></td><td><div dyc-type="menubtn" dyc-cls="hover-navBtn,pressed-navBtn" dyc-btn="m1" class="DynarchCalendar-menu-month">Feb</div></td><td><div dyc-type="menubtn" dyc-cls="hover-navBtn,pressed-navBtn" dyc-btn="m2" class="DynarchCalendar-menu-month">Mar</div></td></tr><tr><td><div dyc-type="menubtn" dyc-cls="hover-navBtn,pressed-navBtn" dyc-btn="m3" class="DynarchCalendar-menu-month">Apr</div></td><td><div dyc-type="menubtn" dyc-cls="hover-navBtn,pressed-navBtn" dyc-btn="m4" class="DynarchCalendar-menu-month">May</div></td><td><div dyc-type="menubtn" dyc-cls="hover-navBtn,pressed-navBtn" dyc-btn="m5" class="DynarchCalendar-menu-month">Jun</div></td></tr><tr><td><div dyc-type="menubtn" dyc-cls="hover-navBtn,pressed-navBtn" dyc-btn="m6" class="DynarchCalendar-menu-month">Jul</div></td><td><div dyc-type="menubtn" dyc-cls="hover-navBtn,pressed-navBtn" dyc-btn="m7" class="DynarchCalendar-menu-month">Aug</div></td><td><div dyc-type="menubtn" dyc-cls="hover-navBtn,pressed-navBtn" dyc-btn="m8" class="DynarchCalendar-menu-month">Sep</div></td></tr><tr><td><div dyc-type="menubtn" dyc-cls="hover-navBtn,pressed-navBtn" dyc-btn="m9" class="DynarchCalendar-menu-month">Oct</div></td><td><div dyc-type="menubtn" dyc-cls="hover-navBtn,pressed-navBtn" dyc-btn="m10" class="DynarchCalendar-menu-month">Nov</div></td><td><div dyc-type="menubtn" dyc-cls="hover-navBtn,pressed-navBtn" dyc-btn="m11" class="DynarchCalendar-menu-month">Dec</div></td></tr></tbody></table></td></tr></tbody></table></div><div class="DynarchCalendar-tooltip"></div></div></td></tr></tbody></table></body></html>

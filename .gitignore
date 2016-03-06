@@ -1,0 +1,13 @@
+.svn
+.DS_Store
+.settings
+.classpath
+.project
+bin/*
+target/
+
+*.class
+*.jar
+/target
+
+nb-configuration.xml

@@ -1,0 +1,221 @@
+@CHARSET "UTF-8";
+/*一些基本样式的简写方式*/
+/* 文字对齐 */
+.text-center{text-align:center}
+.text-left{text-align:left}
+.text-right{text-align:right}
+.middle{vertical-align:middle;}
+/* 背景 */
+.bgRed{background-color:red;}
+.bgRed:hover{background-color:red;}
+.white{color:white}
+/* 三角形 */
+.triangle-up{width:0;height:0;border:4px solid transparent;border-bottom-color:#1bb8e2;position:relative;top:-11px}
+.triangle-down{width:0;height:0;border:4px solid transparent;border-top-color:#1bb8e2;position:relative;top:13px}
+.triangle-left{width:0;height:0;border:6px solid transparent;border-right-color:#1bb8e2;display:inline-block;}
+.triangle-right{width:0;height:0;border:6px solid transparent;border-left-color:#1bb8e2;display:inline-block;}
+/* 对错钩 */
+.check-on:after{content:'\2713';font-size:20px;color:green}
+.check-off:after{content:'\2717';font-size:20px;color:red}
+/* 设置空白高度 */
+.blank6,.blank,.blank15,.blank20,.blank30,.blank50,.blank100{clear:both;display:block;overflow:hidden}
+.blank{height:10px}.blank6{height:6px}.blank15{height:15px}.blank20{height:20px}.blank30{height:30px}.blank50{height:50px}.blank100{height:100px}
+/* 浮动 */
+.left{float:left;top:65px;bottom:22px}.right{float:right}
+/*--- 清理浮动  ---*/
+.clear{clear:both;height:0;overflow:hidden;display:block;line-height:0}
+.clearfix:after{clear:both;font-size:0;height:0;display:block;visibility:hidden;content:" ";line-height:0}
+.clearfix{*display:inline-block;_height:1%;zoom:1}
+/* 字号 */
+.f14{font-size:14px;}.f16{font-size:16px;}.f18{font-size:18px;}.f20{font-size:20px;}
+/* 外边距 */
+.margin0{margin:0px}
+.xmargin0{margin-left:0px;margin-right:0px} .ymargin0{margin-top:0px;margin-bottom:0px}
+.lmargin0{margin-left:0px} .rmargin0{margin-right:0px} .tmargin0{margin-top:0px} .bmargin0{margin-bottom:0px}
+.margin1{margin:1px}
+.xmargin1{margin-left:1px;margin-right:1px} .ymargin1{margin-top:1px;margin-bottom:1px}
+.lmargin1{margin-left:1px} .rmargin1{margin-right:1px} .tmargin1{margin-top:1px} .bmargin1{margin-bottom:1px}
+.margin2{margin:2px}
+.xmargin2{margin-left:2px;margin-right:2px} .ymargin2{margin-top:2px;margin-bottom:2px}
+.lmargin2{margin-left:2px} .rmargin2{margin-right:2px} .tmargin2{margin-top:2px} .bmargin2{margin-bottom:2px}
+.margin3{margin:3px}
+.xmargin3{margin-left:3px;margin-right:3px} .ymargin3{margin-top:3px;margin-bottom:3px}
+.lmargin3{margin-left:3px} .rmargin3{margin-right:3px} .tmargin3{margin-top:3px} .bmargin3{margin-bottom:3px}
+.margin4{margin:4px}
+.xmargin4{margin-left:4px;margin-right:px} .ymargin4{margin-top:4px;margin-bottom:4px}
+.lmargin4{margin-left:4px} .rmargin4{margin-right:4px} .tmargin4{margin-top:4px} .bmargin4{margin-bottom:4px}
+.margin5{margin:5px}
+.xmargin5{margin-left:5px;margin-right:5px} .ymargin5{margin-top:5px;margin-bottom:5px}
+.lmargin5{margin-left:5px} .rmargin5{margin-right:5px} .tmargin5{margin-top:5px} .bmargin5{margin-bottom:5px}
+.margin6{margin:6px}
+.xmargin6{margin-left:6px;margin-right:6px} .ymargin6{margin-top:6px;margin-bottom:6px}
+.lmargin6{margin-left:6px} .rmargin6{margin-right:6px} .tmargin6{margin-top:6px} .bmargin6{margin-bottom:6px}
+.margin7{margin:7px}
+.xmargin7{margin-left:7px;margin-right:7px} .ymargin7{margin-top:7px;margin-bottom:7px}
+.lmargin7{margin-left:7px} .rmargin7{margin-right:7px} .tmargin7{margin-top:7px} .bmargin7{margin-bottom:7px}
+.margin8{margin:8px}
+.xmargin8{margin-left:8px;margin-right:8px} .ymargin8{margin-top:8px;margin-bottom:8px}
+.lmargin8{margin-left:8px} .rmargin8{margin-right:8px} .tmargin8{margin-top:8px} .bmargin8{margin-bottom:8px}
+.margin9{margin:9px}
+.xmargin9{margin-left:9px;margin-right:9px} .ymargin9{margin-top:9px;margin-bottom:9px}
+.lmargin9{margin-left:9px} .rmargin9{margin-right:9px} .tmargin9{margin-top:9px} .bmargin9{margin-bottom:9px}
+.margin10{margin:10px}
+.xmargin10{margin-left:10px;margin-right:10px} .ymargin10{margin-top:10px;margin-bottom:10px}
+.lmargin10{margin-left:10px} .rmargin10{margin-right:10px} .tmargin10{margin-top:10px} .bmargin10{margin-bottom:10px}
+.margin11{margin:11px}
+.xmargin11{margin-left:11px;margin-right:11px} .ymargin11{margin-top:11px;margin-bottom:11px}
+.lmargin11{margin-left:11px} .rmargin11{margin-right:11px} .tmargin11{margin-top:11px} .bmargin11{margin-bottom:11px}
+.margin12{margin:12px}
+.xmargin12{margin-left:12px;margin-right:12px} .ymargin12{margin-top:12px;margin-bottom:12px}
+.lmargin12{margin-left:12px} .rmargin12{margin-right:12px} .tmargin12{margin-top:12px} .bmargin12{margin-bottom:12px}
+.margin13{margin:13px}
+.xmargin13{margin-left:13px;margin-right:13px} .ymargin13{margin-top:13px;margin-bottom:13px}
+.lmargin13{margin-left:13px} .rmargin13{margin-right:13px} .tmargin13{margin-top:13px} .bmargin13{margin-bottom:13px}
+.margin14{margin:14px}
+.xmargin14{margin-left:14px;margin-right:14px} .ymargin14{margin-top:14px;margin-bottom:14px}
+.lmargin14{margin-left:14px} .rmargin14{margin-right:14px} .tmargin14{margin-top:14px} .bmargin14{margin-bottom:14px}
+.margin15{margin:15px}
+.xmargin15{margin-left:15px;margin-right:15px} .ymargin15{margin-top:15px;margin-bottom:15px}
+.lmargin15{margin-left:15px} .rmargin15{margin-right:15px} .tmargin15{margin-top:15px} .bmargin15{margin-bottom:15px}
+.margin16{margin:16px}
+.xmargin16{margin-left:16px;margin-right:16px} .ymargin16{margin-top:16px;margin-bottom:16px}
+.lmargin16{margin-left:16px} .rmargin16{margin-right:16px} .tmargin16{margin-top:16px} .bmargin16{margin-bottom:16px}
+.margin17{margin:17px}
+.xmargin17{margin-left:17px;margin-right:17px} .ymargin17{margin-top:17px;margin-bottom:17px}
+.lmargin17{margin-left:17px} .rmargin17{margin-right:17px} .tmargin17{margin-top:17px} .bmargin17{margin-bottom:17px}
+.margin18{margin:18px}
+.xmargin18{margin-left:18px;margin-right:18px} .ymargin18{margin-top:18px;margin-bottom:18px}
+.lmargin18{margin-left:18px} .rmargin18{margin-right:18px} .tmargin18{margin-top:18px} .bmargin18{margin-bottom:18px}
+.margin19{margin:19px}
+.xmargin19{margin-left:19px;margin-right:19px} .ymargin19{margin-top:19px;margin-bottom:19px}
+.lmargin19{margin-left:19px} .rmargin19{margin-right:19px} .tmargin19{margin-top:19px} .bmargin19{margin-bottom:19px}
+.margin20{margin:20px}
+.xmargin20{margin-left:20px;margin-right:20px} .ymargin20{margin-top:20px;margin-bottom:20px}
+.lmargin20{margin-left:20px} .rmargin20{margin-right:20px} .tmargin20{margin-top:20px} .bmargin20{margin-bottom:20px}
+.margin21{margin:21px}
+.xmargin21{margin-left:21px;margin-right:21px} .ymargin2{margin-top:21px;margin-bottom:21px}
+.lmargin21{margin-left:21px} .rmargin21{margin-right:21px} .tmargin21{margin-top:21px} .bmargin21{margin-bottom:21px}
+.margin22{margin:22px}
+.xmargin22{margin-left:22px;margin-right:22px} .ymargin22{margin-top:22px;margin-bottom:22px}
+.lmargin22{margin-left:22px} .rmargin22{margin-right:22px} .tmargin22{margin-top:22px} .bmargin22{margin-bottom:22px}
+.margin23{margin:23px}
+.xmargin23{margin-left:23px;margin-right:23px} .ymargin23{margin-top:23px;margin-bottom:23px}
+.lmargin23{margin-left:23px} .rmargin23{margin-right:23px} .tmargin23{margin-top:23px} .bmargin23{margin-bottom:23px}
+.margin24{margin:24px}
+.xmargin24{margin-left:24px;margin-right:24px} .ymargin24{margin-top:24px;margin-bottom:24px}
+.lmargin24{margin-left:24px} .rmargin24{margin-right:24px} .tmargin24{margin-top:24px} .bmargin24{margin-bottom:24px}
+.margin25{margin:25px}
+.xmargin25{margin-left:25px;margin-right:25px} .ymargin25{margin-top:25px;margin-bottom:25px}
+.lmargin25{margin-left:25px} .rmargin25{margin-right:25px} .tmargin25{margin-top:25px} .bmargin25{margin-bottom:25px}
+.margin26{margin:26px}
+.xmargin26{margin-left:26px;margin-right:26px} .ymargin26{margin-top:26px;margin-bottom:26px}
+.lmargin26{margin-left:26px} .rmargin26{margin-right:26px} .tmargin26{margin-top:26px} .bmargin26{margin-bottom:26px}
+.margin27{margin:27px}
+.xmargin27{margin-left:27px;margin-right:27px} .ymargin27{margin-top:27px;margin-bottom:27px}
+.lmargin27{margin-left:27px} .rmargin27{margin-right:27px} .tmargin27{margin-top:27px} .bmargin27{margin-bottom:27px}
+.margin28{margin:28px}
+.xmargin28{margin-left:28px;margin-right:28px} .ymargin28{margin-top:28px;margin-bottom:28px}
+.lmargin28{margin-left:28px} .rmargin28{margin-right:28px} .tmargin28{margin-top:28px} .bmargin28{margin-bottom:28px}
+.margin29{margin:29px}
+.xmargin29{margin-left:29px;margin-right:29px} .ymargin29{margin-top:29px;margin-bottom:29px}
+.lmargin29{margin-left:29px} .rmargin29{margin-right:29px} .tmargin29{margin-top:29px} .bmargin29{margin-bottom:29px}
+.margin30{margin:30px}
+.xmargin30{margin-left:30px;margin-right:30px} .ymargin30{margin-top:30px;margin-bottom:30px}
+.lmargin30{margin-left:30px} .rmargin30{margin-right:30px} .tmargin30{margin-top:30px} .bmargin30{margin-bottom:30px}
+/* 内边距 */
+.padding0{padding:0}
+.xpadding0{padding-left:0;padding-right:0} .ypadding0{padding-top:0;padding-bottom:0}
+.lpadding0{padding-left:0} .rpadding0{padding-right:0} .tpadding0{padding-top:0} .bpadding0{padding-bottom:0}
+.padding1{padding:1px}
+.xpadding1{padding-left:1px;padding-right:1px} .ypadding1{padding-top:1px;padding-bottom:1px}
+.lpadding1{padding-left:1px} .rpadding1{padding-right:1px} .tpadding1{padding-top:1px} .bpadding1{padding-bottom:1px} 
+.padding2{padding:2px}
+.xpadding2{padding-left:2px;padding-right:2px} .ypadding2{padding-top:2px;padding-bottom:2px}
+.lpadding2{padding-left:2px} .rpadding2{padding-right:2px} .tpadding2{padding-top:2px} .bpadding2{padding-bottom:2px} 
+.padding3{padding:3px}
+.xpadding3{padding-left:3px;padding-right:3px} .ypadding3{padding-top:3px;padding-bottom:3px}
+.lpadding3{padding-left:3px} .rpadding3{padding-right:3px} .tpadding3{padding-top:3px} .bpadding3{padding-bottom:3px} 
+.padding4{padding:4px}
+.xpadding4{padding-left:4px;padding-right:4px} .ypadding4{padding-top:4px;padding-bottom:4px}
+.lpadding4{padding-left:4px} .rpadding5{padding-right:4px} .tpadding4{padding-top:4px} .bpadding5{padding-bottom:4px} 
+.padding5{padding:5px}
+.xpadding5{padding-left:5px;padding-right:5px} .ypadding5{padding-top:5px;padding-bottom:5px}
+.lpadding5{padding-left:5px} .rpadding5{padding-right:5px} .tpadding5{padding-top:5px} .bpadding5{padding-bottom:5px} 
+.padding6{padding:6px}
+.xpadding6{padding-left:6px;padding-right:6px} .ypadding6{padding-top:6px;padding-bottom:6px}
+.lpadding6{padding-left:6px} .rpadding6{padding-right:6px} .tpadding6{padding-top:6px} .bpadding6{padding-bottom:6px} 
+.padding7{padding:7px}
+.xpadding7{padding-left:7px;padding-right:7px} .ypadding7{padding-top:7px;padding-bottom:7px}
+.lpadding7{padding-left:7px} .rpadding7{padding-right:7px} .tpadding7{padding-top:7px} .bpadding7{padding-bottom:7px} 
+.padding8{padding:8px}
+.xpadding8{padding-left:8px;padding-right:8px} .ypadding8{padding-top:8px;padding-bottom:8px}
+.lpadding8{padding-left:8px} .rpadding8{padding-right:8px} .tpadding8{padding-top:8px} .bpadding8{padding-bottom:8px} 
+.padding9{padding:9px}
+.xpadding9{padding-left:9px;padding-right:9px} .ypadding9{padding-top:9px;padding-bottom:9px}
+.lpadding9{padding-left:9px} .rpadding9{padding-right:9px} .tpadding9{padding-top:9px} .bpadding9{padding-bottom:9px} 
+.padding10{padding:10px}
+.xpadding10{padding-left:10px;padding-right:10px} .ypadding10{padding-top:10px;padding-bottom:10px}
+.lpadding10{padding-left:10px} .rpadding10{padding-right:10px} .tpadding10{padding-top:10px} .bpadding10{padding-bottom:10px} 
+.padding11{padding:11px}
+.xpadding11{padding-left:11px;padding-right:11px} .ypadding11{padding-top:11px;padding-bottom:11px}
+.lpadding11{padding-left:11px} .rpadding11{padding-right:11px} .tpadding11{padding-top:11px} .bpadding11{padding-bottom:11px} 
+.padding12{padding:12px}
+.xpadding12{padding-left:12px;padding-right:12px} .ypadding12{padding-top:12px;padding-bottom:12px}
+.lpadding12{padding-left:12px} .rpadding12{padding-right:12px} .tpadding12{padding-top:12px} .bpadding12{padding-bottom:12px} 
+.padding13{padding:13px}
+.xpadding13{padding-left:13px;padding-right:13px} .ypadding13{padding-top:13px;padding-bottom:13px}
+.lpadding13{padding-left:13px} .rpadding13{padding-right:13px} .tpadding13{padding-top:13px} .bpadding13{padding-bottom:13px} 
+.padding14{padding:14px}
+.xpadding14{padding-left:14px;padding-right:14px} .ypadding14{padding-top:14px;padding-bottom:14px}
+.lpadding14{padding-left:14px} .rpadding14{padding-right:14px} .tpadding14{padding-top:14px} .bpadding14{padding-bottom:14px} 
+.padding15{padding:15px}
+.xpadding15{padding-left:15px;padding-right:15px} .ypadding15{padding-top:15px;padding-bottom:15px}
+.lpadding15{padding-left:15px} .rpadding15{padding-right:15px} .tpadding15{padding-top:15px} .bpadding15{padding-bottom:15px} 
+.padding16{padding:16px}
+.xpadding16{padding-left:16px;padding-right:16px} .ypadding16{padding-top:16px;padding-bottom:16px}
+.lpadding16{padding-left:16px} .rpadding16{padding-right:16px} .tpadding16{padding-top:16px} .bpadding16{padding-bottom:16px} 
+.padding17{padding:17px}
+.xpadding17{padding-left:17px;padding-right:17px} .ypadding17{padding-top:17px;padding-bottom:17px}
+.lpadding17{padding-left:17px} .rpadding17{padding-right:17px} .tpadding17{padding-top:17px} .bpadding17{padding-bottom:17px} 
+.padding18{padding:18px}
+.xpadding18{padding-left:18px;padding-right:18px} .ypadding18{padding-top:18px;padding-bottom:18px}
+.lpadding18{padding-left:18px} .rpadding18{padding-right:18px} .tpadding18{padding-top:18px} .bpadding18{padding-bottom:18px} 
+.padding19{padding:19px}
+.xpadding19{padding-left:19px;padding-right:19px} .ypadding19{padding-top:19px;padding-bottom:19px}
+.lpadding19{padding-left:19px} .rpadding19{padding-right:19px} .tpadding19{padding-top:19px} .bpadding19{padding-bottom:19px} 
+.padding20{padding:20px}
+.xpadding20{padding-left:20px;padding-right:20px} .ypadding20{padding-top:20px;padding-bottom:20px}
+.lpadding20{padding-left:20px} .rpadding20{padding-right:20px} .tpadding20{padding-top:20px} .bpadding20{padding-bottom:20px} 
+.padding21{padding:21px}
+.xpadding21{padding-left:21px;padding-right:21px} .ypadding21{padding-top:21px;padding-bottom:21px}
+.lpadding21{padding-left:21px} .rpadding21{padding-right:21px} .tpadding21{padding-top:21px} .bpadding21{padding-bottom:21px} 
+.padding22{padding:22px}
+.xpadding22{padding-left:22px;padding-right:22px} .ypadding22{padding-top:22px;padding-bottom:22px}
+.lpadding22{padding-left:22px} .rpadding22{padding-right:22px} .tpadding22{padding-top:22px} .bpadding22{padding-bottom:22px} 
+.padding23{padding:23px}
+.xpadding23{padding-left:23px;padding-right:23px} .ypadding23{padding-top:23px;padding-bottom:23px}
+.lpadding23{padding-left:23px} .rpadding23{padding-right:23px} .tpadding23{padding-top:23px} .bpadding23{padding-bottom:23px} 
+.padding24{padding:24px}
+.xpadding24{padding-left:24px;padding-right:24px} .ypadding24{padding-top:24px;padding-bottom:24px}
+.lpadding24{padding-left:24px} .rpadding24{padding-right:24px} .tpadding24{padding-top:24px} .bpadding24{padding-bottom:24px} 
+.padding25{padding:25px}
+.xpadding25{padding-left:25px;padding-right:25px} .ypadding25{padding-top:25px;padding-bottom:25px}
+.lpadding25{padding-left:25px} .rpadding25{padding-right:25px} .tpadding25{padding-top:25px} .bpadding25{padding-bottom:25px} 
+.padding26{padding:26px}
+.xpadding26{padding-left:26px;padding-right:26px} .ypadding26{padding-top:26px;padding-bottom:26px}
+.lpadding26{padding-left:26px} .rpadding26{padding-right:26px} .tpadding26{padding-top:26px} .bpadding26{padding-bottom:26px} 
+.padding27{padding:27px}
+.xpadding27{padding-left:27px;padding-right:27px} .ypadding27{padding-top:27px;padding-bottom:27px}
+.lpadding27{padding-left:27px} .rpadding27{padding-right:27px} .tpadding27{padding-top:27px} .bpadding27{padding-bottom:27px} 
+.padding28{padding:28px}
+.xpadding28{padding-left:28px;padding-right:28px} .ypadding28{padding-top:28px;padding-bottom:28px}
+.lpadding28{padding-left:28px} .rpadding28{padding-right:28px} .tpadding28{padding-top:28px} .bpadding28{padding-bottom:28px} 
+.padding29{padding:29px}
+.xpadding29{padding-left:29px;padding-right:29px} .ypadding29{padding-top:29px;padding-bottom:29px}
+.lpadding29{padding-left:29px} .rpadding29{padding-right:29px} .tpadding29{padding-top:29px} .bpadding29{padding-bottom:29px} 
+.padding30{padding:30px}
+.xpadding30{padding-left:30px;padding-right:30px} .ypadding30{padding-top:30px;padding-bottom:30px}
+.lpadding30{padding-left:30px} .rpadding30{padding-right:30px} .tpadding30{padding-top:30px} .bpadding30{padding-bottom:30px} 
+/* 边框 */
+.border0{border:0;}
+.border-none{border:0;}

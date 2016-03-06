@@ -1,0 +1,36 @@
+﻿<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>layDate Demo</title>
+<script src="laydate.js"></script>
+<style>
+html{background-color:#E3E3E3; font-size:14px; color:#000; font-family:'微软雅黑'}
+h2{line-height:30px; font-size:20px;}
+a,a:hover{ text-decoration:none;}
+pre{font-family:'微软雅黑'}
+.box{width:970px; padding:10px 20px; background-color:#fff; margin:10px auto;}
+.box a{padding-right:20px;}
+</style>
+</head>
+<body>
+<div style="width:970px; margin:10px auto;">
+    演示一：<input class="laydate-icon" onclick="laydate()"><br /><br />
+    演示二：<input class="laydate-icon" id="demo" value="2014-6-20发布日">
+</div>
+<div class="box">
+<pre>
+<strong>【注意事项】</strong>
+一、请千万勿移动laydate中的目录结构，它们具有完整的依赖体系。使用时，只需引入laydate/laydate.js即可。
+二、如果您的网站的js采用合并或模块加载，您需要打开laydate.js，修改path。
+</pre>
+</div>
+<script>
+;!function(){
+laydate({
+   elem: '#demo'
+})
+}();
+</script>
+</body>
+</html>
