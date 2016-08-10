@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<meta name="renderer" content="webkit"/>
+<meta name="author" content="Heanes heanes.com email(heanes@163.com)"/>
+<meta name="keywords" content="软件,商务,HTML,tutorials,source codes"/>
+<meta name="description" content="描述，不超过150个字符"/>
+<!-- style -->
+<link rel="stylesheet" type="text/css" href="../css/imageScaleShow.css"/>
+<title>商品详情</title>
+<style type="text/css">
+    .book-cover{width:600px;margin:0 auto;}
+</style>
+</head>
+<body>
+<div class="center wrap">
+    <!-- S 头部 S -->
+    <!-- E 头部 E-->
+    <!-- S 主要内容 S -->
+    <div class="main">
+        <!-- 主体内容 -->
+        <div class="main-content main-wrap clearfix">
+            <!-- 中心区域 -->
+            <div class="center-block center-wrap float-block">
+                <div class="read-book-detail">
+                    <div class="book-cover">
+                        <div class="image-scale-show" id="imageScaleShow">
+                            <div class="image-show">
+                                <ul class="show-list">
+                                    <li class="show"><img src="image/middle/01.jpg"></li>
+                                    <li><img src="image/middle/02.jpg"></li>
+                                    <li><img src="image/middle/03.jpg"></li>
+                                    <li><img src="image/middle/04.jpg"></li>
+                                    <li><img src="image/middle/05.jpg"></li>
+                                    <li><img src="image/middle/06.jpg"></li>
+                                </ul>
+                                <div class="cursor-select-area" id="cursorSelectArea"></div>
+                            </div>
+                            <div class="image-thumb">
+                                <a class="thumb-nav left" id="thumbNavLeft"><</a>
+                                <ul class="thumb-list">
+                                    <li><a href="javascript:;" class="selected"><img src="image/small/01.jpg"></a></li>
+                                    <li><a href="javascript:;"><img src="image/small/02.jpg"></a></li>
+                                    <li><a href="javascript:;"><img src="image/small/03.jpg"></a></li>
+                                    <li><a href="javascript:;"><img src="image/small/04.jpg"></a></li>
+                                    <li><a href="javascript:;"><img src="image/small/05.jpg"></a></li>
+                                    <li><a href="javascript:;"><img src="image/small/06.jpg"></a></li>
+                                </ul>
+                                <a class="thumb-nav right" id="thumbNavRight">></a>
+                            </div>
+                            <div class="image-show-big"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- E 主要内容 E -->
+    <!-- S 脚部 S -->
+    <!-- E 脚部 E -->
+</div>
+<cite>
+    <!-- S js S -->
+    <script type="text/javascript" src="js/jquery-3.1.0.min.js"></script>
+    <script type="text/javascript" src="../js/imageScaleShow.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $('#imageScaleShow').imageScaleShow({
+                // 大图资源路径，js指定，可以减少一次性加载大图带来的加载速度损耗
+                'imageBigSrcList': [
+                    'image/big/01.jpg',
+                    'image/big/02.jpg',
+                    'image/big/03.jpg',
+                    'image/big/04.jpg',
+                    'image/big/05.jpg',
+                    'image/big/06.jpg'
+                ]
+            });
+        });
+    </script>
+    <!-- E js E -->
+</cite>
+</body>
+</html>
