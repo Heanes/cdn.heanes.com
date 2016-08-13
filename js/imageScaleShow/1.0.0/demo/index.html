@@ -12,7 +12,9 @@
 <link rel="stylesheet" type="text/css" href="../css/imageScaleShow.css"/>
 <title>商品详情</title>
 <style type="text/css">
-    .book-cover{width:600px;margin:0 auto;}
+    .book-cover{width:420px;margin:0 auto;}
+    .title{margin:20px 0;}
+    .title h1{font-size:18px;text-align:center;}
 </style>
 </head>
 <body>
@@ -25,34 +27,12 @@
         <div class="main-content main-wrap clearfix">
             <!-- 中心区域 -->
             <div class="center-block center-wrap float-block">
+                <div class="title">
+                    <h1>类淘宝京东商品内页相册放大镜浏览效果</h1>
+                </div>
                 <div class="read-book-detail">
                     <div class="book-cover">
-                        <div class="image-scale-show" id="imageScaleShow">
-                            <div class="image-show">
-                                <ul class="show-list">
-                                    <li class="show"><img src="image/middle/01.jpg"></li>
-                                    <li><img src="image/middle/02.jpg"></li>
-                                    <li><img src="image/middle/03.jpg"></li>
-                                    <li><img src="image/middle/04.jpg"></li>
-                                    <li><img src="image/middle/05.jpg"></li>
-                                    <li><img src="image/middle/06.jpg"></li>
-                                </ul>
-                                <div class="cursor-select-area" id="cursorSelectArea"></div>
-                            </div>
-                            <div class="image-thumb">
-                                <a class="thumb-nav left" id="thumbNavLeft"><</a>
-                                <ul class="thumb-list">
-                                    <li><a href="javascript:;" class="selected"><img src="image/small/01.jpg"></a></li>
-                                    <li><a href="javascript:;"><img src="image/small/02.jpg"></a></li>
-                                    <li><a href="javascript:;"><img src="image/small/03.jpg"></a></li>
-                                    <li><a href="javascript:;"><img src="image/small/04.jpg"></a></li>
-                                    <li><a href="javascript:;"><img src="image/small/05.jpg"></a></li>
-                                    <li><a href="javascript:;"><img src="image/small/06.jpg"></a></li>
-                                </ul>
-                                <a class="thumb-nav right" id="thumbNavRight">></a>
-                            </div>
-                            <div class="image-show-big"></div>
-                        </div>
+                        <div class="image-scale-show" id="imageScaleShow"></div>
                     </div>
                 </div>
             </div>
@@ -65,10 +45,26 @@
 <cite>
     <!-- S js S -->
     <script type="text/javascript" src="js/jquery-3.1.0.min.js"></script>
-    <script type="text/javascript" src="../js/imageScaleShow.min.js"></script>
+    <script type="text/javascript" src="../js/imageScaleShow.js"></script>
     <script type="text/javascript">
         $(function () {
             $('#imageScaleShow').imageScaleShow({
+                // 小图资源
+                'imageSmallSrcList': [
+                    'image/small/01.jpg',
+                    'image/small/02.jpg',
+                    'image/small/03.jpg',
+                    'image/small/04.jpg',
+                    'image/small/05.jpg'
+                ],
+                // 中图资源
+                'imageMiddleSrcList': [
+                    'image/middle/01.jpg',
+                    'image/middle/02.jpg',
+                    'image/middle/03.jpg',
+                    'image/middle/04.jpg',
+                    'image/middle/05.jpg'
+                ],
                 // 大图资源路径，js指定，可以减少一次性加载大图带来的加载速度损耗
                 'imageBigSrcList': [
                     'image/big/01.jpg',
