@@ -8,7 +8,7 @@
 .image-scale-show{position:relative;width:420px;display:inline-block;}
 .image-scale-show .image-show{text-align:left;height:420px;position:relative;cursor:all-scroll;}
 .image-scale-show .image-show .show-list{display:inline-block;overflow:hidden;}
-.image-scale-show .image-show .show-list li{display:none;line-height:420px;}
+.image-scale-show .image-show .show-list li{display:none;line-height:420px;font-size:0;}
 .image-scale-show .image-show .show-list li.show{display:inline-block;}
 .image-scale-show .image-show .show-list li img{width:100%;height:100%;max-height:420px;}
 .image-scale-show .image-thumb{position:relative;margin:10px;height:60px;overflow:hidden;}
