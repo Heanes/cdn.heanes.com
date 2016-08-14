@@ -2,10 +2,10 @@
 类淘宝京东商品内页，商品相册鼠标浮上放大显示
 
 ## 简介
-仿淘宝京东商品内页，给一个图片列表，其中包含缩略图，中等大小的图，大图，就可以将鼠标浮上时实现局部大图查看效果
+类淘宝京东商品内页，给一个图片列表，其中包含缩略图，中等大小的图，大图，就可以将鼠标浮上时实现局部大图查看效果
 
 ## 特点
-1.js配置性质指定大图路径，可以减小加载大图带来的页面加载速度损耗
+js配置性质指定大图路径，鼠标置于图片上再加载大图，可以减小加载大图带来的页面加载速度损耗
 
 ## Demo
 demo样式见: [imageScaleShow demo](http://cdn.heanes.com/js/imageScaleShow/1.0.0/demo/ "imageScaleShow demo")
@@ -22,11 +22,25 @@ imageScaleShow.js调用很简单，只需普通jQuery插件使用的三步即可
     <script type="text/javascript" src="js/imageScaleShow.js"></script>
 
 #### 第三步：imageScaleShow
-    // 默认配置
-    $('#pictureList').imageScaleShow();
-
-    // 自定义配置
+    // 配置
     $('#pictureList').imageScaleShow({
+        // 小图资源路径列表
+        'imageSmallSrcList': [
+            'image/small/01.jpg',
+            'image/small/02.jpg',
+            'image/small/03.jpg',
+            'image/small/04.jpg',
+            'image/small/05.jpg'
+        ],
+        // 中图资源路径列表
+        'imageMiddleSrcList': [
+            'image/middle/01.jpg',
+            'image/middle/02.jpg',
+            'image/middle/03.jpg',
+            'image/middle/04.jpg',
+            'image/middle/05.jpg'
+        ],
+        // 大图资源路径列表
         "imageBigSrcList": [
            'image/big/01.jpg',
            'image/big/02.jpg',
@@ -39,16 +53,35 @@ imageScaleShow.js调用很简单，只需普通jQuery插件使用的三步即可
 
 
 ## 参数说明
+- `imageSmallSrcList`
+  - **数据类型**： 数组,数组内元素无个数限制
+  - **默认值**： `[]`
+  - **含义**： 小图资源路径列表
+  - **示例**： `[
+                    'image/small/01.jpg',
+                    'image/small/02.jpg',
+                    'image/small/03.jpg'
+                ]`
+                
+- `imageMiddleSrcList`
+  - **数据类型**： 数组,数组内元素无个数限制
+  - **默认值**： `[]`
+  - **含义**： 中图资源路径列表
+  - **示例**： `[
+                    'image/middle/01.jpg',
+                    'image/middle/02.jpg',
+                    'image/middle/03.jpg'
+                ]`
+
 - `imageBigSrcList`
-    - **数据类型**： 数组
+    - **数据类型**： 数组,数组内元素无个数限制
     - **默认值**： `[]`
-    - **含义**： 大图资源路径，js指定，可以减少一次性加载大图带来的加载速度损耗
+    - **含义**： 大图资源路径列表，js指定，可以减少一次性加载大图带来的加载速度损耗,若不指定则将直接将中图放大显示
     - **示例**： `[
                       'image/big/01.jpg',
                       'image/big/02.jpg',
                       'image/big/03.jpg'
                   ]`
-
 
 ## License
 * 本项目的所有代码按照 [MIT License](https://github.com/racaljk/hosts/blob/master/LICENSE) 发布

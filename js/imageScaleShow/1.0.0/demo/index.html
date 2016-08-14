@@ -12,9 +12,7 @@
 <link rel="stylesheet" type="text/css" href="../css/imageScaleShow.css"/>
 <title>商品详情</title>
 <style type="text/css">
-    .book-cover{width:420px;margin:0 auto;}
-    .title{margin:20px 0;}
-    .title h1{font-size:18px;text-align:center;}
+    .book-cover{width:600px;margin:0 auto;}
 </style>
 </head>
 <body>
@@ -27,9 +25,6 @@
         <div class="main-content main-wrap clearfix">
             <!-- 中心区域 -->
             <div class="center-block center-wrap float-block">
-                <div class="title">
-                    <h1>类淘宝京东商品内页相册放大镜浏览效果</h1>
-                </div>
                 <div class="read-book-detail">
                     <div class="book-cover">
                         <div class="image-scale-show" id="imageScaleShow"></div>
@@ -45,11 +40,11 @@
 <cite>
     <!-- S js S -->
     <script type="text/javascript" src="js/jquery-3.1.0.min.js"></script>
-    <script type="text/javascript" src="../js/imageScaleShow.js"></script>
+    <script type="text/javascript" src="../js/imageScaleShow.min.js"></script>
     <script type="text/javascript">
         $(function () {
             $('#imageScaleShow').imageScaleShow({
-                // 小图资源
+                // 小图资源路径列表
                 'imageSmallSrcList': [
                     'image/small/01.jpg',
                     'image/small/02.jpg',
@@ -57,7 +52,7 @@
                     'image/small/04.jpg',
                     'image/small/05.jpg'
                 ],
-                // 中图资源
+                // 中图资源路径列表
                 'imageMiddleSrcList': [
                     'image/middle/01.jpg',
                     'image/middle/02.jpg',
