@@ -7,6 +7,8 @@
 !(function ($, window, undefined) {
     $.fn.imageScaleShow = function (userConf) {
         var defaultConf = {
+                // 鼠标移动切换模式，2-鼠标浮上和点击都切换，1-鼠标点击大图切换，鼠标浮上也切换但移开后恢复原点击处，3-鼠标点击才切换
+                'mouseChangeMode': 1,
                 // 小图资源
                 'imageSmallSrcList': [],
                 // 中图资源
@@ -69,8 +71,12 @@
 
         // 缩略图点击切换
         var selectImage = 0;
+        var changeEventStr = '';
+        if(conf.mouseChangeMode == 1){
+            changeEventStr = ' mouseenter';
+        }
         $imageThumbList.each(function(i, item){
-            $(item).on('click', function(){
+            $(item).on('click' + changeEventStr, function(){
                 $imageThumbList.removeClass('selected');
                 $(this).addClass('selected');
                 $imageShowList.removeClass('show');
@@ -78,18 +84,20 @@
                 selectImage = i;
                 $imageShowBigImg.attr('src', imageBigSrcList[i]);
             });
-            // 点击后鼠标移动到其他缩略图上只切换显示但鼠标移开后恢复原点击处
-            $(item).on('mouseenter', function(){
-                if($(this).hasClass('selected')) return;
-                $imageThumbList.not('.selected').removeClass('selected');
-                $imageShowList.removeClass('show');
-                $imageShowList.eq(i).toggleClass('show');
-                $imageShowBigImg.attr('src', imageBigSrcList[i]);
-            });
-            $(item).on('mouseleave', function(){
-                if($(this).hasClass('selected')) return;
-                $imageThumbList.eq(selectImage).trigger('click');
-            });
+            if(conf.mouseChangeMode == 2){
+                // 点击后鼠标移动到其他缩略图上只切换显示但鼠标移开后恢复原点击处
+                $(item).on('mouseenter', function(){
+                    if($(this).hasClass('selected')) return;
+                    $imageThumbList.not('.selected').removeClass('selected');
+                    $imageShowList.removeClass('show');
+                    $imageShowList.eq(i).toggleClass('show');
+                    $imageShowBigImg.attr('src', imageBigSrcList[i]);
+                });
+                $(item).on('mouseleave', function(){
+                    if($(this).hasClass('selected')) return;
+                    $imageThumbList.eq(selectImage).trigger('click');
+                });
+            }
         });
         // 缩略图导航左右切换
         var $thumbListUl = $imageScaleShow.find('.image-thumb .thumb-list');
