@@ -1,0 +1,13 @@
+@font-face {
+    font-family: 'FZLTXGBK';
+    src: url(FZLTXGBK.eot?#iefix);
+    src: url(FZLTXGBK.eot?#iefix) format('embedded-opentype'), url(FZLTXGBK.woff) format('woff'), url(FZLTXGBK.ttf) format('truetype'), url(FZLTXGBK.svg) format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+body {
+    font-family: Tahoma, Helvetica, Arial, "Microsoft Yahei", "微软雅黑", STXihei, "华文细黑", sans-serif
+}
+.xfont {
+    font-family: FZLTXGBK
+}
