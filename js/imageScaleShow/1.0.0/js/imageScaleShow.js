@@ -1,6 +1,6 @@
 /**
  * @doc 鼠标浮上时放大显示效果，类淘宝京东商品内页图片浏览效果
- * @author FangGang,Heanes,heanes@163.com
+ * @author Heanes,heanes@163.com
  * @time 2016-08-09 11:29:26 周二
  */
 "use strict";
