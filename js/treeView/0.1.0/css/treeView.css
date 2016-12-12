@@ -1,0 +1,78 @@
+@CHARSET "UTF-8";
+/**
+ * @doc 树列表样式
+ * @author Heanes
+ * @time 2016-04-08 16:43:42 周五
+ */
+/******************************* 重设全局样式 ****************************/
+.tree-list-wrap *{box-sizing:border-box;}
+.tree-list-wrap a{text-decoration:none;}
+.tree-list-wrap ul,
+.tree-list-wrap ul li{list-style:none;padding:0;margin:0;}
+
+/* 整树缩进 */
+.tree-list-lap{background-color:#759ea9;height:30px;line-height:30px;text-align:center;}
+.tree-list-lap.lapped{width:30px;}
+.tree-list-lap .lap-handle{display:block;color:#fff;}
+
+.tree-list-wrap.lapped{width:30px;}
+.tree-list-wrap.lapped>.tree-group{}
+.tree-list-wrap.lapped>.tree-group>li{width:30px;position:relative;}
+.tree-list-wrap.lapped>.tree-group>li ul{position:absolute;left:30px;top:0;}
+
+.tree-list-wrap.lapped .tree-group>li:hover{width:auto;}
+.tree-list-wrap.lapped .tree-group>li:hover>a>.node-text{display:block;}
+.tree-list-wrap.lapped .tree-group>li:hover>ul>li{width:auto;}
+.tree-list-wrap.lapped .tree-group>li:hover>ul>li>a>.node-text{display:block}
+
+.tree-list-wrap.lapped>.tree-group>li>a{border-left:0;}
+.tree-list-wrap.lapped .node-text{display:none;}
+.tree-list-wrap.lapped .indent{display:none;}
+.tree-list-wrap.lapped .node-collapse-expand-icon{display:none;}
+
+/******************************* 节点样式 *******************************/
+/* 顶部节点 */
+.tree-top-wrap{}
+.tree-top-wrap .tree-top-list,
+.tree-top-wrap .tree-top-list li{list-style:none;padding:0;margin:0;}
+.tree-top-wrap .tree-top-list{display:block;list-style:none;font-size:0;}
+.tree-top-wrap .tree-top-list li{display:inline-block;line-height:40px;cursor:pointer;font-size:14px;background-color:#86b4bf;}
+.tree-top-wrap .tree-top-list li.active,
+.tree-top-wrap .tree-top-list li:hover{background-color:#3c8dbc;}
+
+.tree-top-wrap .tree-top-list li .node-wrap{display:block;padding:0 20px;}
+.tree-top-wrap .tree-top-list li .node-text{padding:0 4px 0 8px;}
+
+
+/* 侧边节点 */
+.tree-list-wrap .tree-group{background-color:#86b4bf;}
+.tree-list-wrap .tree-group li{display:block;line-height:40px;color:inherit;font-size:14px;cursor:pointer;}
+.tree-list-wrap .tree-group li>ul{}
+.tree-list-wrap .tree-group li.active>ul{display:block;}
+.tree-list-wrap .tree-group li .node-wrap{display:block;padding-left:4px;}
+.tree-list-wrap .tree-group li .node-wrap:hover{background-color:#3c8dbc}
+
+/* 节点是链接 */
+.tree-list-wrap .tree-group li a{display:block;}
+.tree-list-wrap .tree-group a{color:inherit;}
+.tree-list-wrap .tree-group a .node-icon{padding:0 2px;}
+.tree-list-wrap>.tree-group>li>a{border-left:3px solid transparent;}
+.tree-list-wrap>.tree-group>li>a:hover{border-left-color:#3c8dbc;}
+.tree-list-wrap .tree-group li a:hover{background-color:#6ba6b7;}
+
+/* 节点缩进 */
+.tree-list-wrap .indent{display:inline-block;width:30px;height:0;}
+
+/* 图标样式 */
+/* 展开折叠图标 */
+.node-collapse-expand-icon{display:inline-block;width:0;height:0;border-top:5px solid transparent;border-left:6px solid;border-bottom:5px solid transparent;vertical-align:middle;margin:0 4px 5px 0;
+}
+/* 展开的图标 */
+.triangle-down,
+.triangle-right{display:inline-block;width:0;height:0;}
+.triangle-down{border-top:5px solid transparent;border-left:6px solid;border-bottom:5px solid transparent;margin-bottom:5px;}
+.triangle-right{border-left:5px solid transparent;border-right:5px solid transparent;border-top:6px solid;margin-bottom:0;}
+/* 折叠的图标 */
+/* 节点图标 */
+.tree-list-wrap .tree-group li .node-icon{margin-right:4px;}
+.tree-list-wrap .tree-group li .icon-empty{display:inline-block;width:8px;}
