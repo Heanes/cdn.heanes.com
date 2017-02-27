@@ -5,13 +5,13 @@
 	font-family:'PingHei';
 	font-style:normal;
 	font-weight:200;
-	src:local('☺︎'), url("../../fonts/PingHei/v1/PingHei-light.woff") format("woff"), url("../../fonts/PingHei/v1/PingHei-light.ttf") format("truetype");
+	src:local('☺︎'), url("../../fonts/PingHei/PingHei-light.woff") format("woff"), url("../../fonts/PingHei/PingHei-light.ttf") format("truetype");
 	/* Copyright (c) 2000-2008, Changzhou SinoType Technology Co., Ltd.  All rights reserved. */
 }
 
 @font-face {
 	font-family:'PingHei 200';
-	src:url("../../fonts/PingHei/v1/PingHei-light.eot");
+	src:url("../../fonts/PingHei/PingHei-light.eot");
 	/* Copyright (c) 2000-2008, Changzhou SinoType Technology Co., Ltd.  All rights reserved. */
 }
 /*一些基本样式的简写方式*/
@@ -28,8 +28,8 @@
 .text-right{text-align:right}
 .middle{vertical-align:middle;}
 /* 背景 */
-.bgRed{background-color:red;}
-.bgRed:hover{background-color:red;}
+.bgRed{background-color:#f00;}
+.bgRed:hover{background-color:#f00;}
 .white{color:white}
 /* 三角形 */
 /*
@@ -39,12 +39,12 @@
 .triangle-right{width:0;height:0;border:6px solid transparent;border-left-color:#1bb8e2;display:inline-block;}
 */
 /* 对错钩 */
-.check-on:after{content:'\2713';font-size:20px;color:green}
-.check-off:after{content:'\2717';font-size:20px;color:red}
+.check-on:after{content:'\2713';font-size:20px;color:#008000}
+.check-off:after{content:'\2717';font-size:20px;color:#f00}
 /* 外边距 */
-.margin0{margin:0px}
-.xmargin0{margin-left:0px;margin-right:0px} .ymargin0{margin-top:0px;margin-bottom:0px}
-.lmargin0{margin-left:0px} .rmargin0{margin-right:0px} .tmargin0{margin-top:0px} .bmargin0{margin-bottom:0px}
+.margin0{margin:0}
+.xmargin0{margin-left:0;margin-right:0} .ymargin0{margin-top:0;margin-bottom:0}
+.lmargin0{margin-left:0} .rmargin0{margin-right:0} .tmargin0{margin-top:0} .bmargin0{margin-bottom:0}
 .margin1{margin:1px}
 .xmargin1{margin-left:1px;margin-right:1px} .ymargin1{margin-top:1px;margin-bottom:1px}
 .lmargin1{margin-left:1px} .rmargin1{margin-right:1px} .tmargin1{margin-top:1px} .bmargin1{margin-bottom:1px}
@@ -55,7 +55,7 @@
 .xmargin3{margin-left:3px;margin-right:3px} .ymargin3{margin-top:3px;margin-bottom:3px}
 .lmargin3{margin-left:3px} .rmargin3{margin-right:3px} .tmargin3{margin-top:3px} .bmargin3{margin-bottom:3px}
 .margin4{margin:4px}
-.xmargin4{margin-left:4px;margin-right:px} .ymargin4{margin-top:4px;margin-bottom:4px}
+.xmargin4{margin-left:4px;margin-right:4px} .ymargin4{margin-top:4px;margin-bottom:4px}
 .lmargin4{margin-left:4px} .rmargin4{margin-right:4px} .tmargin4{margin-top:4px} .bmargin4{margin-bottom:4px}
 .margin5{margin:5px}
 .xmargin5{margin-left:5px;margin-right:5px} .ymargin5{margin-top:5px;margin-bottom:5px}
@@ -233,4 +233,4 @@
 .border0{border:0;}
 .border-none{border:0;}
 /* 纯css画一个+号 */
-.bd-otl{width:120px;height:120px;border:40px dotted blue;box-sizing:border-box;outline:40px solid blue;margin:40px;}
+.bd-otl{width:120px;height:120px;border:40px dotted #00f;box-sizing:border-box;outline:40px solid #00f;margin:40px;}
