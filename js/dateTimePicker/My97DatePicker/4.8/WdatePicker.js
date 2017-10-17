@@ -10,6 +10,7 @@ $langList:[
 ],
 $skinList:[
 {name:"default",charset:"gb2312"},
+{name:"bootstrap",charset:"gb2312"},
 {name:"whyGreen",charset:"gb2312"},
 {name:"blue",charset:"gb2312"},
 {name:"green",charset:"gb2312"},
