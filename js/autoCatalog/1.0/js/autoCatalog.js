@@ -1,6 +1,6 @@
 /**
- * @doc 根据文章内容自动生成导航目录
- * @author Heanes,heanes@163.com
+ * @doc 根据文章内容自动生成导航目录 @todo 支持更多级别的目录，支持主题（see 搜狗百科）
+ * @author FangGang,Heanes,heanes@163.com
  * @time 2016-04-13 15:12:33
  */
 "use strict";
@@ -9,7 +9,7 @@
         var defaultConf = {
             level1: 'h2',                       // 第一级别选择器
             level2: 'h3',                       // 第二级别选择器
-            catalogTarget: '#articleCatalog',   // 放置生成目录的容器
+            catalogContainer: undefined,        // 放置生成目录的容器dom
             step: 48,                           // 按钮滚动导航目录步距
             alwaysShow: true,                   // 是否一直显示
             collapseOnInit: false,              // 初始化时折叠
@@ -20,8 +20,8 @@
         var $content = this,//$(conf.contentSelector),
             $headerList = $content.find(conf.level1 + ',' + conf.level2);
         var $headerListLength = $headerList.length;
-        var $articleCatalogContainer = $(conf.catalogTarget);
-        if($articleCatalogContainer.length <= 0){
+        var $articleCatalogContainer = conf.catalogContainer;
+        if(!$articleCatalogContainer || $articleCatalogContainer.length <= 0){
             console.warn('autoCatalog.js: Not find where to place the catalog, so the catalog will not generate.');
             return null;
         }
@@ -125,7 +125,7 @@
             }
 
             var h2 = 1, h3 = 1, anchorAddress = '', anchorName = '', anchor = {}, level = 1;//, catalogStr = '';
-            $.each($headerList, function (i, item) {
+            $headerList.each(function (i, item) {
                 // 1. 顺序生成多级章节
                 if(item.tagName.toLowerCase() == conf.level1.toLowerCase() || $(item).hasClass(conf.level1)){
                     level = 1;
@@ -223,7 +223,7 @@
 
             /**
              * @doc 滚动到文章内容起始位置
-             * @author Heanes
+             * @author fanggang
              * @time 2016-04-13 17:03:16
              */
             $articleCatalog.find('.gotop-button').on('click', function () {
